@@ -1,8 +1,11 @@
 import { Github, Instagram, LucideFacebook } from "lucide-react";
-import { signIn } from "next-auth/react";
+import { signIn, useSession } from "next-auth/react";
 import Image from "next/image";
+import Link from "next/link";
 
 const HeroSection = () => {
+  const { data: session } = useSession();
+
   return (
     <section id="home" className="hero relative min-h-screen text-center ">
       <div className="flex max-w-[900px] flex-col gap-12">
@@ -16,9 +19,15 @@ const HeroSection = () => {
             haven&apos;t found it yet, Keep looking. Don&apos;t settle. As with
             all matters of the heart, you&apos;ll know when you find it
           </p>
-          <button className="btn-primary btn" onClick={() => void signIn()}>
-            Get Started
-          </button>
+          {session ? (
+            <Link href="/welcome" className="btn-primary btn">
+              Get Started
+            </Link>
+          ) : (
+            <button className="btn-primary btn" onClick={() => void signIn()}>
+              Get Started
+            </button>
+          )}
         </div>
         <div className="flex w-full justify-center gap-5 ">
           <a

@@ -30,7 +30,7 @@ export default function Home() {
         <ServiceSection />
         <HIWSection />
         <ContactSection />
-        {/* <p>Hello From RecruJobs</p>
+        <p>Hello From RecruJobs</p>
         {session ? (
           <button
             className="border border-slate-800 px-4 py-2"
@@ -45,7 +45,7 @@ export default function Home() {
           >
             Login
           </button>
-        )} */}
+        )}
       </>
     </>
   );
