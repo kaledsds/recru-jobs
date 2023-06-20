@@ -1,7 +1,7 @@
 import Link from "next/link";
-import { navItem } from "~/config/main-page-config";
+import { navItems } from "~/config/main-page-config";
 import useScroll from "~/hooks/useScroll";
-import ThemeToggler from "../ui/theme-toggler";
+import { ThemeToggler } from "../ui";
 
 /**
  * Navbar is the navigation bar of the application.
@@ -26,7 +26,7 @@ const Navbar: React.FC = () => {
       {/* Inpage Navigtion items */}
       <nav className="mx-8 flex-none">
         <ul className="menu menu-horizontal px-1">
-          {navItem.map((item) => (
+          {navItems.map((item) => (
             <li key={item.id}>
               <Link href={item.href}>{item.name}</Link>
             </li>

@@ -1,3 +1,4 @@
+import { Home } from "lucide-react";
 import Head from "next/head";
 import Link from "next/link";
 import MainLayout from "~/layouts/main-layout";
@@ -23,7 +24,7 @@ export default function Welcome() {
                     href="/"
                     className="shadow-one mb-11 flex w-full items-center justify-center gap-2 rounded-md bg-info p-3 font-medium text-white hover:bg-opacity-80"
                   >
-                    {/* <Home className="h-5 w-5" /> */}
+                    <Home />
                     <span className="font-semibold">Go back to home page</span>
                   </Link>
                   <h3 className="text-body-color mb-3 text-center text-2xl font-bold sm:text-3xl">

@@ -1,4 +1,6 @@
+import { recruterConfig } from "~/config/recruter-config";
 import MainLayout from "./main-layout";
+import { Navbar, Sidebar } from "~/components/ui";
 
 /**
  * The props for the RecruterLayout component.
@@ -16,7 +18,17 @@ interface RecruterLayoutProps {
 const RecruterLayout: React.FC<RecruterLayoutProps> = ({ children }) => {
   return (
     <>
-      <MainLayout>{children}</MainLayout>
+      <MainLayout>
+        <div className="flex h-screen flex-col">
+          <Navbar type="recruter" />
+          <div className="flex h-full">
+            <Sidebar config={recruterConfig} />
+            <main className="mt-16 w-full overflow-y-auto p-4 md:p-6 2xl:p-10">
+              {children}
+            </main>
+          </div>
+        </div>
+      </MainLayout>
     </>
   );
 };

@@ -1,4 +1,6 @@
+import { Navbar, Sidebar } from "~/components/ui";
 import MainLayout from "./main-layout";
+import { condidateConfig } from "~/config/condidate-config";
 
 /**
  * The props for the CondidateLayout component.
@@ -16,7 +18,17 @@ const CondidateLayout: React.FC<CondidateLayoutProps> = ({ children }) => {
   // Render the MainLayout component with the children inside.
   return (
     <>
-      <MainLayout>{children}</MainLayout>
+      <MainLayout>
+        <div className="flex h-screen flex-col">
+          <Navbar type="condidate" />
+          <div className="flex h-full">
+            <Sidebar config={condidateConfig} />
+            <main className="mt-16 w-full overflow-y-auto p-4 md:p-6 2xl:p-10">
+              {children}
+            </main>
+          </div>
+        </div>
+      </MainLayout>
     </>
   );
 };
