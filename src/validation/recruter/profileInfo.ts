@@ -29,4 +29,4 @@ export const profileInfoSchema = z
   });
 
 // Profile Info Type
-export type profileInfoType = z.infer<typeof profileInfoSchema>;
+export type ProfileInfoType = z.infer<typeof profileInfoSchema>;
