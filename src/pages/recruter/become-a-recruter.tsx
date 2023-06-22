@@ -29,6 +29,7 @@ import {
   recruterSocialsSchema,
   type RecruterSocialsType,
 } from "~/validation/recruter/recruterSocials";
+import { api } from "~/utils/api";
 
 /**
  * The Become a recruter page.
@@ -74,6 +75,36 @@ export default function BecomeARecruter() {
   });
   const [recruterSocialsData, setRecruterSocialsData] =
     useState<RecruterSocialsType>();
+
+  // createRecruter Mutation
+  const createRecruterMutation = api.recruter.createRecruter.useMutation();
+
+  /**
+   * Submit the recruter data
+   */
+  const submitRecruterData = () => {
+    if (recruterTypeData) {
+      if (recruterTypeData.isOrganization === "Organization") {
+        if (recruterOrgData && recruterContactData && recruterSocialsData) {
+          createRecruterMutation.mutate({
+            isOrganization: true,
+            ...recruterOrgData,
+            ...recruterContactData,
+            ...recruterSocialsData,
+          });
+        }
+      } else {
+        if (recruterNonOrgData && recruterContactData && recruterSocialsData) {
+          createRecruterMutation.mutate({
+            isOrganization: false,
+            ...recruterNonOrgData,
+            ...recruterContactData,
+            ...recruterSocialsData,
+          });
+        }
+      }
+    }
+  };
 
   return (
     <>
@@ -147,7 +178,12 @@ export default function BecomeARecruter() {
               />
             )}
             {/* Step 5: Done Submit data */}
-            {currentStep === 5 && <RecruterDone />}
+            {currentStep === 5 && (
+              <RecruterDone
+                goPreviousStep={() => setCurrentStep((step) => step - 1)}
+                submitRecruterData={submitRecruterData}
+              />
+            )}
           </div>
         </div>
         <ThemeApplyer />
