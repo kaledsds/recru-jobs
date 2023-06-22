@@ -8,7 +8,7 @@ export const profileInfoSchema = z
     orgId: z.string().optional(),
     fullName: z.string().min(3).max(50).optional(),
     cin: z.string().min(8).max(8).optional(),
-    phone: z.string().min(10).max(10),
+    phone: z.string().min(8).max(10),
     email: z.string().email(),
     city: z.string().min(3).max(50),
     address: z.string().min(3).max(50),

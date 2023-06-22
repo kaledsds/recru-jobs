@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { type UseFormReturn } from "react-hook-form";
 import { type RecruterTypeType } from "~/validation/recruter/recruterType";
 
@@ -49,7 +50,11 @@ const RecruterType: React.FC<RecruterTypeProps> = ({ methods, submitData }) => {
         </p>
       )}
       {/* Next button */}
-      <div className="flex justify-end">
+      <div className="flex justify-between">
+        {/* Go back btn */}
+        <Link href="/welcome" className="btn-outline btn-primary btn-sm btn">
+          Go back
+        </Link>
         <button type="submit" className="btn-primary btn-sm btn">
           Next
         </button>

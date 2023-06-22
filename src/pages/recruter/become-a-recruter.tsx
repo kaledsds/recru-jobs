@@ -1,5 +1,5 @@
 import Head from "next/head";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   RecruterDone,
   RecruterContact,
@@ -8,7 +8,7 @@ import {
   RecruterType,
 } from "~/components/recruter/become-a-recruter";
 import FormSteps from "~/components/recruter/become-a-recruter/form-steps";
-import { ThemeApplyer } from "~/components/ui";
+import { Spinner, ThemeApplyer } from "~/components/ui";
 import { useForm } from "react-hook-form";
 import {
   recruterTypeSchema,
@@ -30,11 +30,20 @@ import {
   type RecruterSocialsType,
 } from "~/validation/recruter/recruterSocials";
 import { api } from "~/utils/api";
+import { useRouter } from "next/navigation";
 
 /**
  * The Become a recruter page.
  */
 export default function BecomeARecruter() {
+  const { data: checkRecruter, status } = api.recruter.checkRecruter.useQuery();
+  const router = useRouter();
+  useEffect(() => {
+    if (checkRecruter && status === "success") {
+      router.push("/recruter");
+    }
+  }, [checkRecruter, router, status]);
+
   const [currentStep, setCurrentStep] = useState<number>(1);
 
   /**
@@ -105,6 +114,14 @@ export default function BecomeARecruter() {
       }
     }
   };
+
+  if (status === "loading" || checkRecruter) {
+    return (
+      <div className="flex h-screen w-full items-center justify-center">
+        <Spinner size="lg" />
+      </div>
+    );
+  }
 
   return (
     <>

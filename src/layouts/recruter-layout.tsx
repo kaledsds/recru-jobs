@@ -1,6 +1,9 @@
 import { recruterConfig } from "~/config/recruter-config";
 import MainLayout from "./main-layout";
-import { Navbar, Sidebar } from "~/components/ui";
+import { Navbar, Sidebar, Spinner } from "~/components/ui";
+import { api } from "~/utils/api";
+import { useEffect } from "react";
+import { useRouter } from "next/navigation";
 
 /**
  * The props for the RecruterLayout component.
@@ -16,6 +19,23 @@ interface RecruterLayoutProps {
  * @returns The RecruterLayout component.
  */
 const RecruterLayout: React.FC<RecruterLayoutProps> = ({ children }) => {
+  const { data: checkRecruter, status } = api.recruter.checkRecruter.useQuery();
+
+  const router = useRouter();
+  useEffect(() => {
+    if (!checkRecruter && status === "success") {
+      router.push("/recruter/become-a-recruter");
+    }
+  }, [checkRecruter, router, status]);
+
+  if (status === "loading" || !checkRecruter) {
+    return (
+      <div className="flex h-screen w-full items-center justify-center">
+        <Spinner size="lg" />
+      </div>
+    );
+  }
+
   return (
     <>
       <MainLayout>

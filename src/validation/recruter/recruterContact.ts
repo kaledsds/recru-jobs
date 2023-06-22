@@ -2,7 +2,7 @@ import { z } from "zod";
 
 // Recruter Contact Schema
 export const recruterContactSchema = z.object({
-  phone: z.string().min(10).max(10),
+  phone: z.string().min(8).max(10),
   email: z.string().email(),
   city: z.string().min(3).max(50),
   address: z.string().min(3).max(50),
