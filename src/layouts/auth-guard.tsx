@@ -1,6 +1,7 @@
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
+import { Spinner } from "~/components/ui";
 
 /**
  * AuthGuardProps is the type of the props object that must be passed to AuthGuard component.
@@ -30,7 +31,11 @@ const AuthGuard: React.FC<AuthGuardProps> = ({ children }) => {
 
   // If the user is not authenticated, don't render anything.
   if (["loading", "unauthenticated"].includes(sessionStatus)) {
-    return null;
+    return (
+      <div className="flex h-screen w-full items-center justify-center">
+        <Spinner size="lg" />
+      </div>
+    );
   }
   // If the user is authenticated, render the children.
   return <>{children}</>;

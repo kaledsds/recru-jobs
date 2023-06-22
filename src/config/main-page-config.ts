@@ -1,4 +1,4 @@
-export const navItem = [
+export const navItems = [
   {
     id: "home",
     name: "Home",
