@@ -9,6 +9,10 @@ interface RecruterOrgInfoProps {
 
 /**
  * Recruter Organization Info form component.
+ * @param orgMethods The react-hook-form methods for the organization form.
+ * @param goPreviousStep The function to go to the previous step.
+ * @param submitOrgData The function to submit the organization data.
+ * @returns The JSX element for the recruter organization info component.
  */
 const RecruterOrgInfo: React.FC<RecruterOrgInfoProps> = ({
   orgMethods,

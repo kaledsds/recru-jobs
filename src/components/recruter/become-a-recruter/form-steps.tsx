@@ -4,6 +4,11 @@ interface FormStepsProps {
   step: number;
 }
 
+/**
+ * Steps of the form
+ * @param step The current step
+ * @returns The JSX code for the steps of the form
+ */
 const FormSteps: React.FC<FormStepsProps> = ({ step }) => {
   return (
     <ul className="steps">

@@ -21,6 +21,14 @@ import {
   recruterNonOrgSchema,
   recruterOrgSchema,
 } from "~/validation/recruter/recruterInfo";
+import {
+  type RecruterContactType,
+  recruterContactSchema,
+} from "~/validation/recruter/recruterContact";
+import {
+  recruterSocialsSchema,
+  type RecruterSocialsType,
+} from "~/validation/recruter/recruterSocials";
 
 /**
  * The Become a recruter page.
@@ -49,6 +57,24 @@ export default function BecomeARecruter() {
   const [recruterNonOrgData, setRecruterNonOrgData] =
     useState<RecruterNonOrgType>();
 
+  /**
+   * Recruter Contact
+   */
+  const recruterContactFormMethods = useForm<RecruterContactType>({
+    resolver: zodResolver(recruterContactSchema),
+  });
+  const [recruterContactData, setRecruterContactData] =
+    useState<RecruterContactType>();
+
+  /**
+   * Recruter Socials
+   */
+  const recruterSocialsFormMethods = useForm<RecruterSocialsType>({
+    resolver: zodResolver(recruterSocialsSchema),
+  });
+  const [recruterSocialsData, setRecruterSocialsData] =
+    useState<RecruterSocialsType>();
+
   return (
     <>
       <Head>
@@ -58,10 +84,14 @@ export default function BecomeARecruter() {
       </Head>
       <main className="relative flex h-screen w-screen items-center justify-center overflow-hidden ">
         <div className="space-y-8">
+          {/* Form Page Title */}
           <h1 className="text-center text-4xl font-bold text-primary">
             Become a recruter
           </h1>
-          <FormSteps step={currentStep} />
+          {/* Form Steps */}
+          <div className="flex w-full justify-center">
+            <FormSteps step={currentStep} />
+          </div>
           <div className="rounded-lg bg-primary bg-opacity-5 p-10">
             {/* Step 1: Recruter Type */}
             {currentStep === 1 && (
@@ -95,9 +125,27 @@ export default function BecomeARecruter() {
               />
             )}
             {/* Step 3: Recruter Contact */}
-            {currentStep === 3 && <RecruterContact />}
+            {currentStep === 3 && (
+              <RecruterContact
+                methods={recruterContactFormMethods}
+                goPreviousStep={() => setCurrentStep((step) => step - 1)}
+                submitData={(data: RecruterContactType) => {
+                  setRecruterContactData(data);
+                  setCurrentStep((step) => step + 1);
+                }}
+              />
+            )}
             {/* Step 4: Recruter Socials */}
-            {currentStep === 4 && <RecruterSocials />}
+            {currentStep === 4 && (
+              <RecruterSocials
+                methods={recruterSocialsFormMethods}
+                goPreviousStep={() => setCurrentStep((step) => step - 1)}
+                submitData={(data: RecruterSocialsType) => {
+                  setRecruterSocialsData(data);
+                  setCurrentStep((step) => step + 1);
+                }}
+              />
+            )}
             {/* Step 5: Done Submit data */}
             {currentStep === 5 && <RecruterDone />}
           </div>

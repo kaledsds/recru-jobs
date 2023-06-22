@@ -9,6 +9,10 @@ interface RecruterNonOrgInfoProps {
 
 /**
  * Recruter Individual Info form component.
+ * @param nonOrgMethods The react-hook-form methods for the non-organization form.
+ * @param goPreviousStep The function to go to the previous step.
+ * @param submitNonOrgData The function to submit the non-organization data.
+ * @returns The JSX element for the recruter individual info form component.
  */
 const RecruterNonOrgInfo: React.FC<RecruterNonOrgInfoProps> = ({
   nonOrgMethods,

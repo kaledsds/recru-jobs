@@ -18,6 +18,7 @@ const RecruterType: React.FC<RecruterTypeProps> = ({ methods, submitData }) => {
         Please specify the type of usage from the options below:
       </h1>
       <div>
+        {/* Org radio */}
         <div className="form-control">
           <label className="label cursor-pointer">
             <span className="label-text font-semibold">Organization</span>
@@ -29,6 +30,7 @@ const RecruterType: React.FC<RecruterTypeProps> = ({ methods, submitData }) => {
             />
           </label>
         </div>
+        {/* Individual radio */}
         <div className="form-control">
           <label className="label cursor-pointer">
             <span className="label-text font-semibold">Individual</span>
@@ -46,6 +48,7 @@ const RecruterType: React.FC<RecruterTypeProps> = ({ methods, submitData }) => {
           {methods.formState.errors.isOrganization.message}
         </p>
       )}
+      {/* Next button */}
       <div className="flex justify-end">
         <button type="submit" className="btn-primary btn-sm btn">
           Next

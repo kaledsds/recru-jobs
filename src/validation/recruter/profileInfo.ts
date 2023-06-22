@@ -13,11 +13,11 @@ export const profileInfoSchema = z
     city: z.string().min(3).max(50),
     address: z.string().min(3).max(50),
     postalCode: z.string().min(4).max(4),
-    linkedIn: z.string().url(),
-    facebook: z.string(),
-    twitter: z.string(),
-    instagram: z.string(),
-    website: z.string().url(),
+    linkedIn: z.string().optional().or(z.string().url().optional()),
+    facebook: z.string().optional(),
+    twitter: z.string().optional(),
+    instagram: z.string().optional(),
+    website: z.string().optional().or(z.string().url().optional()),
   })
   // Check if isOrganization is true then orgName & orgId is required otherwise fullName & cin is required
   .refine((data) => {
