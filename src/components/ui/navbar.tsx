@@ -5,7 +5,7 @@ import ThemeToggler from "~/components/ui/theme-toggler";
 
 // NavbarProps is the type of the props object that must be passed to Navbar component.
 interface NavbarProps {
-  type: "condidate" | "recruter";
+  type: "candidate" | "recruter";
 }
 
 /**
@@ -57,8 +57,8 @@ const Navbar: React.FC<NavbarProps> = ({ type }) => {
               </li>
               <li>
                 {type === "recruter" ? (
-                  <Link href="/condidate" className="justify-between">
-                    Switch to condidate
+                  <Link href="/candidate" className="justify-between">
+                    Switch to candidate
                   </Link>
                 ) : (
                   <Link href="/recruter" className="justify-between">

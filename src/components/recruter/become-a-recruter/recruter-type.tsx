@@ -4,7 +4,6 @@ import { type RecruterTypeType } from "~/validation/recruter/recruterType";
 // recruter type form component props
 interface RecruterTypeProps {
   methods: UseFormReturn<RecruterTypeType>;
-  goNextStep: () => void;
   submitData: (data: RecruterTypeType) => void;
 }
 /**
@@ -12,20 +11,12 @@ interface RecruterTypeProps {
  * @param {RecruterTypeProps} props The component props.
  * @returns {JSX.Element} The JSX Code for the recruter type form component.
  */
-const RecruterType: React.FC<RecruterTypeProps> = ({
-  methods,
-  goNextStep,
-  submitData,
-}) => {
-  // onSubmit Function
-  const onSubmit = (data: RecruterTypeType) => {
-    submitData(data);
-    goNextStep();
-  };
-
+const RecruterType: React.FC<RecruterTypeProps> = ({ methods, submitData }) => {
   return (
-    <form className="space-y-6" onSubmit={methods.handleSubmit(onSubmit)}>
-      <h1>Please specify the type of usage from the options below:</h1>
+    <form className="space-y-6" onSubmit={methods.handleSubmit(submitData)}>
+      <h1 className="font-bold">
+        Please specify the type of usage from the options below:
+      </h1>
       <div>
         <div className="form-control">
           <label className="label cursor-pointer">
@@ -51,10 +42,12 @@ const RecruterType: React.FC<RecruterTypeProps> = ({
         </div>
       </div>
       {methods.formState.errors.isOrganization && (
-        <p>{methods.formState.errors.isOrganization.message}</p>
+        <p className="text-error">
+          {methods.formState.errors.isOrganization.message}
+        </p>
       )}
-      <div className="justify-end- flex">
-        <button type="submit" className="btn-primary btn">
+      <div className="flex justify-end">
+        <button type="submit" className="btn-primary btn-sm btn">
           Next
         </button>
       </div>

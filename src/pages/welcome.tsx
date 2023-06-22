@@ -36,8 +36,8 @@ export default function Welcome() {
                       <Link href="/recruter" className="btn-primary btn">
                         Recruter
                       </Link>
-                      <Link href="/condidate" className="btn-primary btn">
-                        Condidate
+                      <Link href="/candidate" className="btn-primary btn">
+                        Candidate
                       </Link>
                     </div>
                   </div>

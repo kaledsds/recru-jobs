@@ -15,6 +15,12 @@ import {
   type RecruterTypeType,
 } from "~/validation/recruter/recruterType";
 import { zodResolver } from "@hookform/resolvers/zod";
+import {
+  type RecruterNonOrgType,
+  type RecruterOrgType,
+  recruterNonOrgSchema,
+  recruterOrgSchema,
+} from "~/validation/recruter/recruterInfo";
 
 /**
  * The Become a recruter page.
@@ -22,13 +28,26 @@ import { zodResolver } from "@hookform/resolvers/zod";
 export default function BecomeARecruter() {
   const [currentStep, setCurrentStep] = useState<number>(1);
 
-  // recruter type form methods
+  /**
+   * Recruter type
+   */
   const recruterTypeFormMethods = useForm<RecruterTypeType>({
     resolver: zodResolver(recruterTypeSchema),
   });
-
-  // recruter data state
   const [recruterTypeData, setRecruterTypeData] = useState<RecruterTypeType>();
+
+  /**
+   * Recruter info
+   */
+  const recruterOrgFormMethods = useForm<RecruterOrgType>({
+    resolver: zodResolver(recruterOrgSchema),
+  });
+  const [recruterOrgData, setRecruterOrgData] = useState<RecruterOrgType>();
+  const recruterNonOrgFormMethods = useForm<RecruterNonOrgType>({
+    resolver: zodResolver(recruterNonOrgSchema),
+  });
+  const [recruterNonOrgData, setRecruterNonOrgData] =
+    useState<RecruterNonOrgType>();
 
   return (
     <>
@@ -44,18 +63,42 @@ export default function BecomeARecruter() {
           </h1>
           <FormSteps step={currentStep} />
           <div className="rounded-lg bg-primary bg-opacity-5 p-10">
+            {/* Step 1: Recruter Type */}
             {currentStep === 1 && (
               <RecruterType
                 methods={recruterTypeFormMethods}
-                goNextStep={() => setCurrentStep((step) => step + 1)}
-                submitData={(data: RecruterTypeType) =>
-                  setRecruterTypeData(data)
-                }
+                submitData={(data: RecruterTypeType) => {
+                  setRecruterTypeData(data);
+                  setCurrentStep((step) => step + 1);
+                }}
               />
             )}
-            {currentStep === 2 && <RecruterInfo />}
+            {/* Step 2: Recruter Info */}
+            {currentStep === 2 && (
+              <RecruterInfo
+                isOrganization={
+                  recruterTypeData?.isOrganization === "Organization"
+                    ? true
+                    : false
+                }
+                orgMethods={recruterOrgFormMethods}
+                nonOrgMethods={recruterNonOrgFormMethods}
+                goPreviousStep={() => setCurrentStep((step) => step - 1)}
+                submitOrgData={(data: RecruterOrgType) => {
+                  setRecruterOrgData(data);
+                  setCurrentStep((step) => step + 1);
+                }}
+                submitNonOrgData={(data: RecruterNonOrgType) => {
+                  setRecruterNonOrgData(data);
+                  setCurrentStep((step) => step + 1);
+                }}
+              />
+            )}
+            {/* Step 3: Recruter Contact */}
             {currentStep === 3 && <RecruterContact />}
+            {/* Step 4: Recruter Socials */}
             {currentStep === 4 && <RecruterSocials />}
+            {/* Step 5: Done Submit data */}
             {currentStep === 5 && <RecruterDone />}
           </div>
         </div>

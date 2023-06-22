@@ -1,7 +1,7 @@
 import { Mailbox, Send, UserCog2, UserPlus2 } from "lucide-react";
 
-export const condidateConfig = {
-  type: "condidate",
+export const candidateConfig = {
+  type: "candidate",
   navItems: [
     {
       id: "posts",
@@ -10,13 +10,13 @@ export const condidateConfig = {
         {
           id: "postagig",
           name: "Post A Gig",
-          href: "/condidate/postagig",
+          href: "/candidate/postagig",
           icon: <UserPlus2 className="h-5 w-5" />,
         },
         {
           id: "managegigs",
           name: "Manage Gigs",
-          href: "/condidate/managegigs",
+          href: "/candidate/managegigs",
           icon: <UserCog2 className="h-5 w-5" />,
         },
       ],
@@ -28,13 +28,13 @@ export const condidateConfig = {
         {
           id: "sent",
           name: "Sent",
-          href: "/condidate/sent",
+          href: "/candidate/sent",
           icon: <Send className="h-5 w-5" />,
         },
         {
           id: "received",
           name: "Received",
-          href: "/condidate/received",
+          href: "/candidate/received",
           icon: <Mailbox className="h-5 w-5" />,
         },
       ],
