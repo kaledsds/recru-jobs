@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { type UseFormReturn } from "react-hook-form";
-import { type RecruterTypeType } from "~/validation/recruter/recruterType";
+import { type RecruterTypeType } from "~/validation/recruter";
 
 // recruter type form component props
 interface RecruterTypeProps {

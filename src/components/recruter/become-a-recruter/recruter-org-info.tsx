@@ -1,5 +1,5 @@
 import { type UseFormReturn } from "react-hook-form";
-import type { RecruterOrgType } from "~/validation/recruter/recruterInfo";
+import type { RecruterOrgType } from "~/validation/recruter";
 
 interface RecruterOrgInfoProps {
   orgMethods: UseFormReturn<RecruterOrgType>;

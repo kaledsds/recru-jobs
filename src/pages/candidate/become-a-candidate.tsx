@@ -2,26 +2,30 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import Head from "next/head";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
+import { ThemeApplyer } from "~/components/ui";
 import {
   FormSteps,
   CandidateInfo,
   CandidateContact,
   CandidateLocation,
+  CandidateSocials,
 } from "~/components/candidate/become-a-candidate";
-import { ThemeApplyer } from "~/components/ui";
+import type {
+  CandidateContactType,
+  CandidateInfoType,
+  CandidateLocationType,
+  CandidateSocialsType,
+} from "~/validation/candidate";
 import {
   candidateContactSchema,
-  type CandidateContactType,
-} from "~/validation/candidate/candidateContact";
-import {
-  type CandidateInfoType,
   candidateInfoSchema,
-} from "~/validation/candidate/candidateInfo";
-import {
-  type CandidateLocationType,
   candidateLocationSchema,
-} from "~/validation/candidate/candidateLocation";
+  candidateSocialsSchema,
+} from "~/validation/candidate";
 
+/**
+ * Become a candidate page.
+ */
 const BecomeACandidate = () => {
   const [currentStep, setCurrentStep] = useState<number>(1);
 
@@ -51,6 +55,15 @@ const BecomeACandidate = () => {
   });
   const [candidateLocationData, setCandidateLocationData] =
     useState<CandidateLocationType>();
+
+  /**
+   * Candidate Socials
+   */
+  const candidateSocialsFormMethods = useForm<CandidateSocialsType>({
+    resolver: zodResolver(candidateSocialsSchema),
+  });
+  const [candidateSocialsData, setCandidateSocialsData] =
+    useState<CandidateSocialsType>();
 
   return (
     <>
@@ -95,6 +108,16 @@ const BecomeACandidate = () => {
                 goPreviousStep={() => setCurrentStep((step) => step - 1)}
                 submitData={(data: CandidateLocationType) => {
                   setCandidateLocationData(data);
+                  setCurrentStep((step) => step + 1);
+                }}
+              />
+            )}
+            {currentStep === 4 && (
+              <CandidateSocials
+                methods={candidateSocialsFormMethods}
+                goPreviousStep={() => setCurrentStep((step) => step - 1)}
+                submitData={(data: CandidateSocialsType) => {
+                  setCandidateSocialsData(data);
                   setCurrentStep((step) => step + 1);
                 }}
               />

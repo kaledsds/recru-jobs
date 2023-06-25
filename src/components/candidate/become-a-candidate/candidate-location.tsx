@@ -1,5 +1,5 @@
 import { type UseFormReturn } from "react-hook-form";
-import { type CandidateLocationType } from "~/validation/candidate/candidateLocation";
+import { type CandidateLocationType } from "~/validation/candidate";
 
 interface CandidateLocationProps {
   methods: UseFormReturn<CandidateLocationType>;
@@ -7,6 +7,11 @@ interface CandidateLocationProps {
   submitData: (data: CandidateLocationType) => void;
 }
 
+/**
+ * Candidate Location
+ * @param {CandidateLocationProps} props
+ * @returns {JSX.Element} JSX.Element
+ */
 const CandidateLocation: React.FC<CandidateLocationProps> = ({
   methods,
   goPreviousStep,

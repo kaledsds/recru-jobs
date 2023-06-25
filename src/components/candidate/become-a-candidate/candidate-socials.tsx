@@ -1,19 +1,18 @@
 import { type UseFormReturn } from "react-hook-form";
-import { type RecruterSocialsType } from "~/validation/recruter";
+import { type CandidateSocialsType } from "~/validation/candidate";
 
-interface RecruterSocialsProps {
-  methods: UseFormReturn<RecruterSocialsType>;
+interface CandidateSocialsProps {
+  methods: UseFormReturn<CandidateSocialsType>;
   goPreviousStep: () => void;
-  submitData: (data: RecruterSocialsType) => void;
+  submitData: (data: CandidateSocialsType) => void;
 }
+
 /**
- * Socials step of the recruter registration form
- * @param methods The react-hook-form methods.
- * @param goPreviousStep The function to go to the previous step.
- * @param submitData The function to submit the data.
- * @returns The JSX element for the socials step of the recruter registration form.
+ * Candidate Socials
+ * @param {CandidateSocialsProps} props
+ * @returns {JSX.Element} JSX.Element
  */
-const RecruterSocials: React.FC<RecruterSocialsProps> = ({
+const CandidateSocials: React.FC<CandidateSocialsProps> = ({
   methods,
   goPreviousStep,
   submitData,
@@ -107,23 +106,44 @@ const RecruterSocials: React.FC<RecruterSocialsProps> = ({
             </label>
           </div>
         </div>
-        {/* Website */}
-        <div className="form-control w-full">
-          <label htmlFor="website" className="pb-2 font-semibold">
-            Website:
-          </label>
-          <input
-            className="input-bordered input-primary input w-full"
-            id="website"
-            type="text"
-            placeholder="Type here"
-            {...methods.register("website")}
-          />
-          <label className="label">
-            <span className="label-text-alt text-error">
-              {methods.formState.errors.website?.message}
-            </span>
-          </label>
+        {/* Github & Website */}
+        <div className="flex gap-4">
+          {/* Github */}
+          <div className="form-control w-full">
+            <label htmlFor="github" className="pb-2 font-semibold">
+              Github:
+            </label>
+            <input
+              className="input-bordered input-primary input w-full"
+              id="github"
+              type="text"
+              placeholder="Type here"
+              {...methods.register("github")}
+            />
+            <label className="label">
+              <span className="label-text-alt text-error">
+                {methods.formState.errors.github?.message}
+              </span>
+            </label>
+          </div>
+          {/* Website */}
+          <div className="form-control w-full">
+            <label htmlFor="website" className="pb-2 font-semibold">
+              Website:
+            </label>
+            <input
+              className="input-bordered input-primary input w-full"
+              id="website"
+              type="text"
+              placeholder="Type here"
+              {...methods.register("website")}
+            />
+            <label className="label">
+              <span className="label-text-alt text-error">
+                {methods.formState.errors.website?.message}
+              </span>
+            </label>
+          </div>
         </div>
       </div>
       {/* Buttons */}
@@ -144,4 +164,4 @@ const RecruterSocials: React.FC<RecruterSocialsProps> = ({
   );
 };
 
-export default RecruterSocials;
+export default CandidateSocials;

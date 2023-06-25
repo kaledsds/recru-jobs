@@ -1,6 +1,5 @@
-import {type UseFormReturn } from "react-hook-form";
-import {type CandidateContactType } from "~/validation/candidate/candidateContact";
-
+import { type UseFormReturn } from "react-hook-form";
+import { type CandidateContactType } from "~/validation/candidate";
 
 interface CandidateContactProps {
   methods: UseFormReturn<CandidateContactType>;
@@ -8,6 +7,11 @@ interface CandidateContactProps {
   submitData: (data: CandidateContactType) => void;
 }
 
+/**
+ * Candidate Contact
+ * @param {CandidateContactProps} props
+ * @returns {JSX.Element} JSX.Element
+ */
 const CandidateContact: React.FC<CandidateContactProps> = ({
   methods,
   goPreviousStep,
@@ -43,7 +47,7 @@ const CandidateContact: React.FC<CandidateContactProps> = ({
         {/* E-mail */}
         <div className="form-control w-full">
           <label htmlFor="email" className="pb-2 font-semibold">
-          E-mail:
+            E-mail:
           </label>
           <input
             className="input-bordered input-primary input w-full"
@@ -75,7 +79,7 @@ const CandidateContact: React.FC<CandidateContactProps> = ({
         </button>
       </div>
     </form>
-  )
-}
+  );
+};
 
-export default CandidateContact
+export default CandidateContact;

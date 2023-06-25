@@ -1,12 +1,17 @@
-import Link from 'next/link';
-import {type UseFormReturn } from 'react-hook-form';
-import {type CandidateInfoType } from '~/validation/candidate/candidateInfo';
+import Link from "next/link";
+import { type UseFormReturn } from "react-hook-form";
+import { type CandidateInfoType } from "~/validation/candidate";
 
 interface CandidateInfoProps {
   methods: UseFormReturn<CandidateInfoType>;
   submitData: (data: CandidateInfoType) => void;
 }
 
+/**
+ * Candidate Info
+ * @param {CandidateInfoProps} props
+ * @returns {JSX.Element} JSX.Element
+ */
 const CandidateInfo: React.FC<CandidateInfoProps> = ({
   methods,
   submitData,
@@ -16,7 +21,9 @@ const CandidateInfo: React.FC<CandidateInfoProps> = ({
       onSubmit={methods.handleSubmit(submitData)}
       className="flex w-full flex-col gap-8 py-2"
     >
-      <h1 className="font-bold">Please provide your full name, CIN and your Field of expertise:</h1>
+      <h1 className="font-bold">
+        Please provide your full name, CIN and your Field of expertise:
+      </h1>
       {/* Inputs */}
       <div className="space-y-4">
         {/* Full Name */}
@@ -60,7 +67,7 @@ const CandidateInfo: React.FC<CandidateInfoProps> = ({
         {/* Expertise */}
         <div className="form-control w-full">
           <label htmlFor="expertise" className="pb-2 font-semibold">
-          Expertise:
+            Expertise:
           </label>
           <input
             className="input-bordered input-primary input w-full"
@@ -89,7 +96,7 @@ const CandidateInfo: React.FC<CandidateInfoProps> = ({
         </button>
       </div>
     </form>
-  )
-}
+  );
+};
 
-export default CandidateInfo
+export default CandidateInfo;
