@@ -5,8 +5,8 @@ export const profileInfoSchema = z
   .object({
     fullName: z.string().min(3).max(50),
     cin: z.string().min(8).max(8),
-    phone: z.string().min(8).max(10),
     expertise: z.string().min(3).max(50),
+    phone: z.string().min(8).max(10),
     email: z.string().email(),
     city: z.string().min(3).max(50),
     address: z.string().min(3).max(50),

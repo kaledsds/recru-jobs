@@ -5,9 +5,12 @@ import { useForm } from 'react-hook-form';
 import { 
   FormSteps,
   CandidateInfo,
+  CandidateContact,
+  CandidateLocation,
 } from '~/components/candidate/become-a-candidate';
 import { ThemeApplyer } from '~/components/ui';
-import {type CandidateInfoType, candidateSchema } from '~/validation/candidate/candidateInfo';
+import {candidateContactSchema, type CandidateContactType } from '~/validation/candidate/candidateContact';
+import {type CandidateInfoType, candidateInfoSchema } from '~/validation/candidate/candidateInfo';
 
 const BecomeACandidate = () => {
   const [currentStep, setCurrentStep] = useState<number>(1);
@@ -16,10 +19,19 @@ const BecomeACandidate = () => {
    * Candidate Info
    */
     const candidateInfoFormMethods = useForm<CandidateInfoType>({
-      resolver: zodResolver(candidateSchema),
+      resolver: zodResolver(candidateInfoSchema),
     });
     const [candidateInfoData, setCandidateInfoData] =
       useState<CandidateInfoType>();
+
+        /**
+   * Candidate Contact
+   */
+        const candidateContactFormMethods = useForm<CandidateContactType>({
+          resolver: zodResolver(candidateContactSchema),
+        });
+        const [candidateContactData, setCandidateContactData] =
+          useState<CandidateContactType>();
 
   return (
     <>
@@ -46,6 +58,26 @@ const BecomeACandidate = () => {
                   setCandidateInfoData(data);
                   setCurrentStep((step) => step + 1);
                 }}
+              />
+            )}
+            {currentStep === 2 && (
+              <CandidateContact
+                methods={candidateContactFormMethods}
+                goPreviousStep={() => setCurrentStep((step) => step - 1)}
+                submitData={(data: CandidateContactType) => {
+                  setCandidateContactData(data);
+                  setCurrentStep((step) => step + 1);
+                }}
+              />
+            )}
+            {currentStep === 3 && (
+              <CandidateLocation
+                // methods={candidateContactFormMethods}
+                // goPreviousStep={() => setCurrentStep((step) => step - 1)}
+                // submitData={(data: CandidateContactType) => {
+                //   setCandidateContactData(data);
+                //   setCurrentStep((step) => step + 1);
+                // }}
               />
             )}
           </div>
