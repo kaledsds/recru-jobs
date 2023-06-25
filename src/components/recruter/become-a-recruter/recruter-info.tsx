@@ -4,7 +4,7 @@ import RecruterOrgInfo from "./recruter-org-info";
 import type {
   RecruterNonOrgType,
   RecruterOrgType,
-} from "~/validation/recruter/recruterInfo";
+} from "~/validation/recruter";
 
 interface RecruterInfoProps {
   isOrganization: boolean;

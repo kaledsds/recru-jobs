@@ -1,6 +1,9 @@
-import { Navbar, Sidebar } from "~/components/ui";
+import { Navbar, Sidebar, Spinner } from "~/components/ui";
 import MainLayout from "./main-layout";
 import { candidateConfig } from "~/config/candidate-config";
+import { api } from "~/utils/api";
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 
 /**
  * The props for the CandidateLayout component.
@@ -15,6 +18,23 @@ interface CandidateLayoutProps {
  * @returns The CandidateLayout component.
  */
 const CandidateLayout: React.FC<CandidateLayoutProps> = ({ children }) => {
+  const { data: checkCandidate, status } = api.candidate.checkCandidate.useQuery();
+
+  const router = useRouter();
+  useEffect(() => {
+    if (!checkCandidate && status === "success") {
+      router.push("/candidate/become-a-candidate");
+    }
+  }, [checkCandidate, router, status]);
+
+  if (status === "loading" || !checkCandidate) {
+    return (
+      <div className="flex h-screen w-full items-center justify-center">
+        <Spinner size="lg" />
+      </div>
+    );
+  }
+
   // Render the MainLayout component with the children inside.
   return (
     <>

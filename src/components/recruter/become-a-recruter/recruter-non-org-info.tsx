@@ -1,5 +1,5 @@
 import { type UseFormReturn } from "react-hook-form";
-import type { RecruterNonOrgType } from "~/validation/recruter/recruterInfo";
+import type { RecruterNonOrgType } from "~/validation/recruter";
 
 interface RecruterNonOrgInfoProps {
   nonOrgMethods: UseFormReturn<RecruterNonOrgType>;

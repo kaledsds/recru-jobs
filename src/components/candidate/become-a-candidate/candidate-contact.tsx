@@ -1,69 +1,65 @@
 import { type UseFormReturn } from "react-hook-form";
-import type { RecruterOrgType } from "~/validation/recruter";
+import { type CandidateContactType } from "~/validation/candidate";
 
-interface RecruterOrgInfoProps {
-  orgMethods: UseFormReturn<RecruterOrgType>;
+interface CandidateContactProps {
+  methods: UseFormReturn<CandidateContactType>;
   goPreviousStep: () => void;
-  submitOrgData: (data: RecruterOrgType) => void;
+  submitData: (data: CandidateContactType) => void;
 }
 
 /**
- * Recruter Organization Info form component.
- * @param orgMethods The react-hook-form methods for the organization form.
- * @param goPreviousStep The function to go to the previous step.
- * @param submitOrgData The function to submit the organization data.
- * @returns The JSX element for the recruter organization info component.
+ * Candidate Contact
+ * @param {CandidateContactProps} props
+ * @returns {JSX.Element} JSX.Element
  */
-const RecruterOrgInfo: React.FC<RecruterOrgInfoProps> = ({
-  orgMethods,
+const CandidateContact: React.FC<CandidateContactProps> = ({
+  methods,
   goPreviousStep,
-  submitOrgData,
+  submitData,
 }) => {
   return (
     <form
-      onSubmit={orgMethods.handleSubmit(submitOrgData)}
+      onSubmit={methods.handleSubmit(submitData)}
       className="flex w-full flex-col gap-8 py-2"
     >
-      <h1 className="font-bold">
-        Please provide your organization name and ID:
-      </h1>
+      <h1 className="font-bold">Please provide your contact:</h1>
       {/* Inputs */}
       <div className="space-y-4">
-        {/* Org Name */}
+        {/* Phone Number */}
         <div className="form-control w-full">
-          <label htmlFor="orgName" className="pb-2 font-semibold">
-            Organization Name:
+          <label htmlFor="phone" className="pb-2 font-semibold">
+            Phone Number:
           </label>
           <input
             className="input-bordered input-primary input w-full"
-            id="orgName"
+            id="phone"
             type="text"
             placeholder="Type here"
-            {...orgMethods.register("orgName")}
+            {...methods.register("phone")}
           />
           <label className="label">
             <span></span>
             <span className="label-text-alt text-error">
-              {orgMethods.formState.errors.orgName?.message}
+              {methods.formState.errors.phone?.message}
             </span>
           </label>
         </div>
-        {/* Org ID */}
+        {/* E-mail */}
         <div className="form-control w-full">
-          <label htmlFor="orgId" className="pb-2 font-semibold">
-            Organization ID:
+          <label htmlFor="email" className="pb-2 font-semibold">
+            E-mail:
           </label>
           <input
             className="input-bordered input-primary input w-full"
-            id="orgId"
+            id="email"
             type="text"
             placeholder="Type here"
-            {...orgMethods.register("orgId")}
+            {...methods.register("email")}
           />
           <label className="label">
             <span></span>
             <span className="label-text-alt text-error">
-              {orgMethods.formState.errors.orgId?.message}
+              {methods.formState.errors.email?.message}
             </span>
           </label>
         </div>
@@ -86,4 +82,4 @@ const RecruterOrgInfo: React.FC<RecruterOrgInfoProps> = ({
   );
 };
 
-export default RecruterOrgInfo;
+export default CandidateContact;

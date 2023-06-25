@@ -1,19 +1,19 @@
 import { CheckCircle } from "lucide-react";
 
-interface RecruterDoneProps {
+interface CandidateDoneProps {
   goPreviousStep: () => void;
-  submitRecruterData: () => void;
+  submitCandidateData: () => void;
 }
 
 /**
- * The recruter done component.
+ * The candidate done component.
  * @param goPreviousStep The function to go to the previous step.
- * @param submitRecruterData The function to submit the recruter data.
- * @returns The JSX element for the recruter done component.
+ * @param submitCandidateData The function to submit the candidate data.
+ * @returns The JSX element for the candidate done component.
  */
-const RecruterDone: React.FC<RecruterDoneProps> = ({
+const CandidateDone: React.FC<CandidateDoneProps> = ({
   goPreviousStep,
-  submitRecruterData,
+  submitCandidateData,
 }) => {
   return (
     <div className="space-y-8 py-4">
@@ -29,7 +29,10 @@ const RecruterDone: React.FC<RecruterDoneProps> = ({
           Previous
         </button>
         {/* Next btn */}
-        <button className="btn-primary btn-sm btn" onClick={submitRecruterData}>
+        <button
+          className="btn-primary btn-sm btn"
+          onClick={submitCandidateData}
+        >
           Begin
         </button>
       </div>
@@ -37,4 +40,4 @@ const RecruterDone: React.FC<RecruterDoneProps> = ({
   );
 };
 
-export default RecruterDone;
+export default CandidateDone;

@@ -10,27 +10,23 @@ import {
 import FormSteps from "~/components/recruter/become-a-recruter/form-steps";
 import { Spinner, ThemeApplyer } from "~/components/ui";
 import { useForm } from "react-hook-form";
-import {
-  recruterTypeSchema,
-  type RecruterTypeType,
-} from "~/validation/recruter/recruterType";
-import { zodResolver } from "@hookform/resolvers/zod";
-import {
-  type RecruterNonOrgType,
-  type RecruterOrgType,
-  recruterNonOrgSchema,
-  recruterOrgSchema,
-} from "~/validation/recruter/recruterInfo";
-import {
-  type RecruterContactType,
-  recruterContactSchema,
-} from "~/validation/recruter/recruterContact";
-import {
-  recruterSocialsSchema,
-  type RecruterSocialsType,
-} from "~/validation/recruter/recruterSocials";
 import { api } from "~/utils/api";
 import { useRouter } from "next/navigation";
+import {
+  recruterContactSchema,
+  recruterNonOrgSchema,
+  recruterOrgSchema,
+  recruterSocialsSchema,
+  recruterTypeSchema,
+} from "~/validation/recruter";
+import type {
+  RecruterContactType,
+  RecruterNonOrgType,
+  RecruterOrgType,
+  RecruterSocialsType,
+  RecruterTypeType,
+} from "~/validation/recruter";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 /**
  * The Become a recruter page.
@@ -86,7 +82,9 @@ export default function BecomeARecruter() {
     useState<RecruterSocialsType>();
 
   // createRecruter Mutation
-  const createRecruterMutation = api.recruter.createRecruter.useMutation();
+  const createRecruterMutation = api.recruter.createRecruter.useMutation({
+    onSuccess: () => router.push("/recruter"),
+  });
 
   /**
    * Submit the recruter data

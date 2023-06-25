@@ -32,6 +32,29 @@ model Recruter {
     updatedAt DateTime @updatedAt
 }
 
+model candidate {
+    id         String  @id @default(cuid())
+    userId     String  @unique
+    user       User    @relation(fields: [userId], references: [id])
+    fullName   String
+    cin        String
+    expertise  String
+    phone      String
+    email      String
+    city       String
+    address    String
+    postalCode String
+    linkedIn   String?
+    twitter    String?
+    facebook   String?
+    instagram  String?
+    github     String?
+    website    String?
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+}
+
 // Necessary for Next auth
 model Account {
     id                String  @id @default(cuid())
@@ -60,14 +83,15 @@ model Session {
 }
 
 model User {
-    id            String    @id @default(cuid())
+    id            String     @id @default(cuid())
     name          String?
-    email         String?   @unique
+    email         String?    @unique
     emailVerified DateTime?
     image         String?
     accounts      Account[]
     sessions      Session[]
-    Recruter      Recruter?
+    recruter      Recruter?
+    candidate     candidate?
 }
 
 model VerificationToken {

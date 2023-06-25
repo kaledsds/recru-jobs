@@ -1,5 +1,5 @@
 import { type UseFormReturn } from "react-hook-form";
-import { type RecruterContactType } from "~/validation/recruter/recruterContact";
+import { type RecruterContactType } from "~/validation/recruter";
 
 interface RecruterContactProps {
   methods: UseFormReturn<RecruterContactType>;
