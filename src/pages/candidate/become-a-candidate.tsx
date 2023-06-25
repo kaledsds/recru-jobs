@@ -1,37 +1,56 @@
-import { zodResolver } from '@hookform/resolvers/zod';
-import Head from 'next/head';
-import React, { useState } from 'react'
-import { useForm } from 'react-hook-form';
-import { 
+import { zodResolver } from "@hookform/resolvers/zod";
+import Head from "next/head";
+import React, { useState } from "react";
+import { useForm } from "react-hook-form";
+import {
   FormSteps,
   CandidateInfo,
   CandidateContact,
   CandidateLocation,
-} from '~/components/candidate/become-a-candidate';
-import { ThemeApplyer } from '~/components/ui';
-import {candidateContactSchema, type CandidateContactType } from '~/validation/candidate/candidateContact';
-import {type CandidateInfoType, candidateInfoSchema } from '~/validation/candidate/candidateInfo';
+} from "~/components/candidate/become-a-candidate";
+import { ThemeApplyer } from "~/components/ui";
+import {
+  candidateContactSchema,
+  type CandidateContactType,
+} from "~/validation/candidate/candidateContact";
+import {
+  type CandidateInfoType,
+  candidateInfoSchema,
+} from "~/validation/candidate/candidateInfo";
+import {
+  type CandidateLocationType,
+  candidateLocationSchema,
+} from "~/validation/candidate/candidateLocation";
 
 const BecomeACandidate = () => {
   const [currentStep, setCurrentStep] = useState<number>(1);
 
-    /**
+  /**
    * Candidate Info
    */
-    const candidateInfoFormMethods = useForm<CandidateInfoType>({
-      resolver: zodResolver(candidateInfoSchema),
-    });
-    const [candidateInfoData, setCandidateInfoData] =
-      useState<CandidateInfoType>();
+  const candidateInfoFormMethods = useForm<CandidateInfoType>({
+    resolver: zodResolver(candidateInfoSchema),
+  });
+  const [candidateInfoData, setCandidateInfoData] =
+    useState<CandidateInfoType>();
 
-        /**
+  /**
    * Candidate Contact
    */
-        const candidateContactFormMethods = useForm<CandidateContactType>({
-          resolver: zodResolver(candidateContactSchema),
-        });
-        const [candidateContactData, setCandidateContactData] =
-          useState<CandidateContactType>();
+  const candidateContactFormMethods = useForm<CandidateContactType>({
+    resolver: zodResolver(candidateContactSchema),
+  });
+  const [candidateContactData, setCandidateContactData] =
+    useState<CandidateContactType>();
+
+  /**
+   * Candidate Location
+   */
+  const candidateLocationFormMethods = useForm<CandidateLocationType>({
+    resolver: zodResolver(candidateLocationSchema),
+  });
+  const [candidateLocationData, setCandidateLocationData] =
+    useState<CandidateLocationType>();
 
   return (
     <>
@@ -51,7 +70,7 @@ const BecomeACandidate = () => {
             <FormSteps step={currentStep} />
           </div>
           <div className="rounded-lg bg-primary bg-opacity-5 p-10">
-          {currentStep === 1 && (
+            {currentStep === 1 && (
               <CandidateInfo
                 methods={candidateInfoFormMethods}
                 submitData={(data: CandidateInfoType) => {
@@ -72,12 +91,12 @@ const BecomeACandidate = () => {
             )}
             {currentStep === 3 && (
               <CandidateLocation
-                // methods={candidateContactFormMethods}
-                // goPreviousStep={() => setCurrentStep((step) => step - 1)}
-                // submitData={(data: CandidateContactType) => {
-                //   setCandidateContactData(data);
-                //   setCurrentStep((step) => step + 1);
-                // }}
+                methods={candidateLocationFormMethods}
+                goPreviousStep={() => setCurrentStep((step) => step - 1)}
+                submitData={(data: CandidateLocationType) => {
+                  setCandidateLocationData(data);
+                  setCurrentStep((step) => step + 1);
+                }}
               />
             )}
           </div>
@@ -85,7 +104,7 @@ const BecomeACandidate = () => {
         <ThemeApplyer />
       </main>
     </>
-  )
-}
+  );
+};
 
-export default BecomeACandidate
+export default BecomeACandidate;
