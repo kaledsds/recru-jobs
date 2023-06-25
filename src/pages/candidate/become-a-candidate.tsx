@@ -1,14 +1,15 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import Head from "next/head";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { ThemeApplyer } from "~/components/ui";
+import { Spinner, ThemeApplyer } from "~/components/ui";
 import {
   FormSteps,
   CandidateInfo,
   CandidateContact,
   CandidateLocation,
   CandidateSocials,
+  CandidateDone,
 } from "~/components/candidate/become-a-candidate";
 import type {
   CandidateContactType,
@@ -22,11 +23,22 @@ import {
   candidateLocationSchema,
   candidateSocialsSchema,
 } from "~/validation/candidate";
+import { api } from "~/utils/api";
+import { useRouter } from "next/navigation";
 
 /**
  * Become a candidate page.
  */
 const BecomeACandidate = () => {
+  const { data: checkCandidate, status } =
+    api.candidate.checkCandidate.useQuery();
+  const router = useRouter();
+  useEffect(() => {
+    if (checkCandidate && status === "success") {
+      router.push("/candidate");
+    }
+  }, [checkCandidate, router, status]);
+
   const [currentStep, setCurrentStep] = useState<number>(1);
 
   /**
@@ -64,6 +76,38 @@ const BecomeACandidate = () => {
   });
   const [candidateSocialsData, setCandidateSocialsData] =
     useState<CandidateSocialsType>();
+
+  // createCandidate Mutation
+  const createCandidateMutation = api.candidate.createCandidate.useMutation({
+    onSuccess: () => router.push("/candidate"),
+  });
+
+  /**
+   * Submit the candidate data
+   */
+  const submitCandidateData = () => {
+    if (
+      candidateInfoData &&
+      candidateContactData &&
+      candidateLocationData &&
+      candidateSocialsData
+    ) {
+      createCandidateMutation.mutate({
+        ...candidateInfoData,
+        ...candidateContactData,
+        ...candidateLocationData,
+        ...candidateSocialsData,
+      });
+    }
+  };
+
+  if (status === "loading" || checkCandidate) {
+    return (
+      <div className="flex h-screen w-full items-center justify-center">
+        <Spinner size="lg" />
+      </div>
+    );
+  }
 
   return (
     <>
@@ -120,6 +164,13 @@ const BecomeACandidate = () => {
                   setCandidateSocialsData(data);
                   setCurrentStep((step) => step + 1);
                 }}
+              />
+            )}
+            {/* Step 5: Done Submit data */}
+            {currentStep === 5 && (
+              <CandidateDone
+                goPreviousStep={() => setCurrentStep((step) => step - 1)}
+                submitCandidateData={submitCandidateData}
               />
             )}
           </div>

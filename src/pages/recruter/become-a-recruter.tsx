@@ -82,7 +82,9 @@ export default function BecomeARecruter() {
     useState<RecruterSocialsType>();
 
   // createRecruter Mutation
-  const createRecruterMutation = api.recruter.createRecruter.useMutation();
+  const createRecruterMutation = api.recruter.createRecruter.useMutation({
+    onSuccess: () => router.push("/recruter"),
+  });
 
   /**
    * Submit the recruter data

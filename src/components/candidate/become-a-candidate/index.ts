@@ -3,6 +3,7 @@ import CandidateInfo from "./candidate-info";
 import CandidateContact from "./candidate-contact";
 import CandidateLocation from "./candidate-location";
 import CandidateSocials from "./candidate-socials";
+import CandidateDone from "./candidate-done";
 
 export {
   FormSteps,
@@ -10,4 +11,5 @@ export {
   CandidateContact,
   CandidateLocation,
   CandidateSocials,
+  CandidateDone,
 };
