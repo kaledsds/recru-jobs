@@ -16,6 +16,7 @@ export const profileInfoSchema = z.object({
   instagram: z.string().optional(),
   github: z.string().optional(),
   website: z.string().optional().or(z.string().url().optional()),
+  resume: z.string().url(),
 });
 
 // Profile Info Type

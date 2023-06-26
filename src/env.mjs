@@ -34,6 +34,9 @@ export const env = createEnv({
    */
   client: {
     // NEXT_PUBLIC_CLIENTVAR: z.string().min(1),
+    NEXT_PUBLIC_CLOUD_NAME: z.string().min(1),
+    NEXT_PUBLIC_API_SECRET: z.string().min(1),
+    NEXT_PUBLIC_UPLOAD_PRESET: z.string().min(1),
   },
 
   /**
@@ -49,6 +52,9 @@ export const env = createEnv({
     GOOGLE_CLIENT_SECRET: process.env.GOOGLE_CLIENT_SECRET,
     FACEBOOK_CLIENT_ID: process.env.FACEBOOK_CLIENT_ID,
     FACEBOOK_CLIENT_SECRET: process.env.FACEBOOK_CLIENT_SECRET,
+    NEXT_PUBLIC_CLOUD_NAME: process.env.NEXT_PUBLIC_CLOUD_NAME,
+    NEXT_PUBLIC_API_SECRET: process.env.NEXT_PUBLIC_API_SECRET,
+    NEXT_PUBLIC_UPLOAD_PRESET: process.env.NEXT_PUBLIC_UPLOAD_PRESET,
   },
   /**
    * Run `build` or `dev` with `SKIP_ENV_VALIDATION` to skip env validation.
