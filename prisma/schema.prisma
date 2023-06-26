@@ -33,9 +33,9 @@ model Recruter {
 }
 
 model candidate {
-    id         String  @id @default(cuid())
-    userId     String  @unique
-    user       User    @relation(fields: [userId], references: [id])
+    id         String   @id @default(cuid())
+    userId     String   @unique
+    user       User     @relation(fields: [userId], references: [id])
     fullName   String
     cin        String
     expertise  String
@@ -50,9 +50,18 @@ model candidate {
     instagram  String?
     github     String?
     website    String?
+    resume     String
+    createdAt  DateTime @default(now())
+    updatedAt  DateTime @updatedAt
+}
 
+model Resume {
+    id        String   @id @default(cuid())
+    url       String
+    owner     User     @relation(fields: [userId], references: [id])
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
+    userId    String   @unique
 }
 
 // Necessary for Next auth
@@ -92,6 +101,7 @@ model User {
     sessions      Session[]
     recruter      Recruter?
     candidate     candidate?
+    Resume        Resume?
 }
 
 model VerificationToken {
