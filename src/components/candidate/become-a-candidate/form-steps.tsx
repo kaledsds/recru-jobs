@@ -16,7 +16,8 @@ const FormSteps: React.FC<FormStepsProps> = ({ step }) => {
       <li className={cn("step", step >= 2 && "step-primary")}>Contact</li>
       <li className={cn("step", step >= 3 && "step-primary")}>Location</li>
       <li className={cn("step", step >= 4 && "step-primary")}>Socials</li>
-      <li className={cn("step", step >= 5 && "step-primary")}>Done</li>
+      <li className={cn("step", step >= 5 && "step-primary")}>Resume</li>
+      <li className={cn("step", step >= 6 && "step-primary")}>Done</li>
     </ul>
   );
 };

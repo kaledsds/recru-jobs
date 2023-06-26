@@ -10,6 +10,7 @@ import {
   CandidateLocation,
   CandidateSocials,
   CandidateDone,
+  CandidateResume,
 } from "~/components/candidate/become-a-candidate";
 import type {
   CandidateContactType,
@@ -127,6 +128,7 @@ const BecomeACandidate = () => {
             <FormSteps step={currentStep} />
           </div>
           <div className="rounded-lg bg-primary bg-opacity-5 p-10">
+            {/* Step 1: CandidateInfo */}
             {currentStep === 1 && (
               <CandidateInfo
                 methods={candidateInfoFormMethods}
@@ -136,6 +138,7 @@ const BecomeACandidate = () => {
                 }}
               />
             )}
+            {/* Step 2: Contact */}
             {currentStep === 2 && (
               <CandidateContact
                 methods={candidateContactFormMethods}
@@ -146,6 +149,8 @@ const BecomeACandidate = () => {
                 }}
               />
             )}
+            {/* Step 3: Location */}
+
             {currentStep === 3 && (
               <CandidateLocation
                 methods={candidateLocationFormMethods}
@@ -156,6 +161,7 @@ const BecomeACandidate = () => {
                 }}
               />
             )}
+            {/* Step 4: Socials */}
             {currentStep === 4 && (
               <CandidateSocials
                 methods={candidateSocialsFormMethods}
@@ -166,8 +172,10 @@ const BecomeACandidate = () => {
                 }}
               />
             )}
-            {/* Step 5: Done Submit data */}
-            {currentStep === 5 && (
+            {/* Step 5: Resume */}
+            {currentStep === 5 && <CandidateResume />}
+            {/* Step 6: Done Submit data */}
+            {currentStep === 6 && (
               <CandidateDone
                 goPreviousStep={() => setCurrentStep((step) => step - 1)}
                 submitCandidateData={submitCandidateData}
