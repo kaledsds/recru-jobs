@@ -1,4 +1,4 @@
-import { Navbar, Sidebar, Spinner } from "~/components/ui";
+import { DashboardTheme, Navbar, Sidebar, Spinner } from "~/components/ui";
 import MainLayout from "./main-layout";
 import { candidateConfig } from "~/config/candidate-config";
 import { api } from "~/utils/api";
@@ -18,7 +18,8 @@ interface CandidateLayoutProps {
  * @returns The CandidateLayout component.
  */
 const CandidateLayout: React.FC<CandidateLayoutProps> = ({ children }) => {
-  const { data: checkCandidate, status } = api.candidate.checkCandidate.useQuery();
+  const { data: checkCandidate, status } =
+    api.candidate.checkCandidate.useQuery();
 
   const router = useRouter();
   useEffect(() => {
@@ -43,9 +44,10 @@ const CandidateLayout: React.FC<CandidateLayoutProps> = ({ children }) => {
           <Navbar type="candidate" />
           <div className="flex h-full">
             <Sidebar config={candidateConfig} />
-            <main className="mt-16 w-full overflow-y-auto p-4 md:p-6 2xl:p-10">
+            <main className="mt-16 w-full overflow-y-auto bg-base-300 bg-opacity-50 p-4 md:p-6 2xl:p-10">
               {children}
             </main>
+            <DashboardTheme />
           </div>
         </div>
       </MainLayout>

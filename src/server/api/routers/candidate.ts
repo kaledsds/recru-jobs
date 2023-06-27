@@ -33,7 +33,7 @@ export const candidateRouter = createTRPCRouter({
    */
   checkCandidate: protectedProcedure.query(async ({ ctx }) => {
     // Check if candidate exists
-    const candidate = await ctx.prisma.candidate.findUnique({
+    const candidate = await ctx.prisma.candidate.findFirst({
       where: {
         userId: ctx.session.user.id,
       },
@@ -43,5 +43,19 @@ export const candidateRouter = createTRPCRouter({
       return true;
     }
     return false;
+  }),
+  /**
+   * Get user candidate
+   * @access protected
+   * @returns candidate
+   */
+  getUserCandidate: protectedProcedure.query(async ({ ctx }) => {
+    // Get candidate
+    const candidate = await ctx.prisma.candidate.findFirst({
+      where: {
+        userId: ctx.session.user.id,
+      },
+    });
+    return candidate;
   }),
 });
