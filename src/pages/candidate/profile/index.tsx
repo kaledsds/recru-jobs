@@ -12,6 +12,8 @@ import Head from "next/head";
 import { PageHeader } from "~/components/ui";
 import CandidateLayout from "~/layouts/candidate-layout";
 import { api } from "~/utils/api";
+import Link from "next/link";
+import { DeleteCondidate } from "~/components/candidate/profile";
 
 // Import styles
 import "@react-pdf-viewer/core/lib/styles/index.css";
@@ -37,7 +39,7 @@ export default function Profile() {
           <PageHeader title="Profile Page" Icon={UserCircle2} />
           <div className="container">
             <div className="flex w-full">
-              <div className="container card rounded-box grid  flex-grow bg-base-300">
+              <div className="container card rounded-box grid flex-grow border border-primary bg-base-300">
                 <div className="container py-8">
                   {/* Condidate info */}
                   <div className="divider"></div>
@@ -141,13 +143,14 @@ export default function Profile() {
                 </div>
               </div>
               <div className="divider divider-horizontal"></div>
-              <div className="container card rounded-box grid flex-grow bg-base-300 py-7">
+              <div className="container card rounded-box grid flex-grow border border-primary bg-base-300 py-7">
+                <div className="divider"></div>
                 <h1 className="flex justify-center rounded-lg bg-primary py-2 text-xl font-bold text-slate-100">
                   Resume
                 </h1>
                 <div className="divider"></div>
                 <div className="flex w-full justify-center">
-                  <div className="flex w-[400px] justify-center">
+                  <div className="flex w-[300px] justify-center">
                     <Worker workerUrl="https://unpkg.com/pdfjs-dist@3.6.172/build/pdf.worker.js">
                       <Viewer fileUrl={resume} />
                     </Worker>
@@ -160,6 +163,21 @@ export default function Profile() {
                   </a>
                 </div>
               </div>
+            </div>
+          </div>
+          <div className="container">
+            <div className="divider"></div>
+            <div className="container card rounded-box grid flex-grow border border-primary bg-base-300 py-7">
+              <div className="flex justify-between px-4">
+                <h1>You can Modify or add more info here</h1>
+                <Link className="btn-primary btn-sm btn" href="profile/edit">
+                  edit
+                </Link>
+              </div>
+            </div>
+            <div className="divider"></div>
+            <div className="container card rounded-box grid flex-grow border border-red-600 bg-base-300 py-7">
+              <DeleteCondidate />
             </div>
           </div>
         </div>
