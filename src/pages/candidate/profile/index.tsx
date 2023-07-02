@@ -1,4 +1,5 @@
 import {
+  ArrowUpRightFromCircle,
   Facebook,
   Github,
   Globe,
@@ -12,11 +13,17 @@ import { PageHeader } from "~/components/ui";
 import CandidateLayout from "~/layouts/candidate-layout";
 import { api } from "~/utils/api";
 
+// Import styles
+import "@react-pdf-viewer/core/lib/styles/index.css";
+import "@react-pdf-viewer/default-layout/lib/styles/index.css";
+import { Viewer, Worker } from "@react-pdf-viewer/core";
+
 /**
  * The Profile page.
  */
 export default function Profile() {
   const { data: candidate } = api.candidate.getUserCandidate.useQuery();
+  const resume = candidate?.resume as string;
 
   return (
     <>
@@ -134,8 +141,24 @@ export default function Profile() {
                 </div>
               </div>
               <div className="divider divider-horizontal"></div>
-              <div className="container card rounded-box grid h-20 flex-grow bg-base-300">
-                content
+              <div className="container card rounded-box grid flex-grow bg-base-300 py-7">
+                <h1 className="flex justify-center rounded-lg bg-primary py-2 text-xl font-bold text-slate-100">
+                  Resume
+                </h1>
+                <div className="divider"></div>
+                <div className="flex w-full justify-center">
+                  <div className="flex w-[400px] justify-center">
+                    <Worker workerUrl="https://unpkg.com/pdfjs-dist@3.6.172/build/pdf.worker.js">
+                      <Viewer fileUrl={resume} />
+                    </Worker>
+                  </div>
+                </div>
+                <div className="divider"></div>
+                <div className="flex justify-center">
+                  <a target="_blank" href={resume}>
+                    <ArrowUpRightFromCircle className="text-primary" />
+                  </a>
+                </div>
               </div>
             </div>
           </div>
