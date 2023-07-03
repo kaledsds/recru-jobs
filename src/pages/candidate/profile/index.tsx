@@ -55,6 +55,13 @@ export default function Profile() {
                         <span className="font-semibold">Full Name: </span>
                         {candidate?.fullName}
                       </h1>
+                      {/* Full name */}
+                      <h1 className="text-lg">
+                        <span className="font-semibold">
+                          Field of expertise:{" "}
+                        </span>
+                        {candidate?.expertise}
+                      </h1>
                       {/* Phone */}
                       <h1 className="text-lg">
                         <span className="font-semibold">Phone: </span>
@@ -127,7 +134,7 @@ export default function Profile() {
                       {candidate?.github && (
                         <a
                           target="_blank"
-                          href={`"https://github.com/"${candidate.github}`}
+                          href={`https://github.com/${candidate.github}`}
                         >
                           <Github className="text-primary" />
                         </a>
