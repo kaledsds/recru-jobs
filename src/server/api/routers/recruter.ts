@@ -33,7 +33,7 @@ export const recruterRouter = createTRPCRouter({
    */
   checkRecruter: protectedProcedure.query(async ({ ctx }) => {
     // Check if recruter exists
-    const recruter = await ctx.prisma.recruter.findUnique({
+    const recruter = await ctx.prisma.recruter.findFirst({
       where: {
         userId: ctx.session.user.id,
       },
@@ -43,5 +43,20 @@ export const recruterRouter = createTRPCRouter({
       return true;
     }
     return false;
+  }),
+  /**
+   * Get user recruter
+   * @access protected
+   * @returns recruter
+   */
+  getUserRecruter: protectedProcedure.query(async ({ ctx }) => {
+    // Get recruter
+    const recruter = await ctx.prisma.recruter.findFirst({
+      where: {
+        userId: ctx.session.user.id,
+      },
+    });
+    // Return recruter
+    return recruter;
   }),
 });
