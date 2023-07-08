@@ -99,4 +99,14 @@ export const recruterRouter = createTRPCRouter({
       // Return updated recruter
       return recruter;
     }),
+  deleteRecruiter: protectedProcedure.mutation(({ ctx }) => {
+    // Delete recruter
+    const recruter = ctx.prisma.recruter.delete({
+      where: {
+        userId: ctx.session.user.id,
+      },
+    });
+    // Return deleted recruter
+    return recruter;
+  }),
 });

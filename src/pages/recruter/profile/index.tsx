@@ -8,6 +8,7 @@ import {
 } from "lucide-react";
 import Head from "next/head";
 import Link from "next/link";
+import { DeleteRecruiter } from "~/components/recruter/profile";
 import { PageHeader } from "~/components/ui";
 import RecruterLayout from "~/layouts/recruter-layout";
 import { api } from "~/utils/api";
@@ -145,8 +146,8 @@ export default function Profile() {
             </div>
             <div className="divider"></div>
             <div className="container card rounded-box grid flex-grow border border-red-600 bg-base-300 py-7">
-              {/* <DeleteCondidate /> */}
-              delete here
+              {/* Delete Recruiter */}
+              <DeleteRecruiter />
             </div>
           </div>
         </div>
