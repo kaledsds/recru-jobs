@@ -1,6 +1,6 @@
 import { recruterConfig } from "~/config/recruter-config";
 import MainLayout from "./main-layout";
-import { Navbar, Sidebar, Spinner } from "~/components/ui";
+import { DashboardTheme, Navbar, Sidebar, Spinner } from "~/components/ui";
 import { api } from "~/utils/api";
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
@@ -46,6 +46,7 @@ const RecruterLayout: React.FC<RecruterLayoutProps> = ({ children }) => {
             <main className="mt-16 w-full overflow-y-auto p-4 md:p-6 2xl:p-10">
               {children}
             </main>
+            <DashboardTheme />
           </div>
         </div>
       </MainLayout>
