@@ -12,7 +12,7 @@ import { PageHeader } from "~/components/ui";
 import RecruterLayout from "~/layouts/recruter-layout";
 import { api } from "~/utils/api";
 
-const index = () => {
+export default function Profile() {
   const { data: recruter } = api.recruter.getUserRecruter.useQuery();
 
   return (
@@ -153,6 +153,4 @@ const index = () => {
       </RecruterLayout>
     </>
   );
-};
-
-export default index;
+}

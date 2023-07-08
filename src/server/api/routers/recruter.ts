@@ -1,4 +1,8 @@
 import { createTRPCRouter, protectedProcedure } from "~/server/api/trpc";
+import {
+  editRecruiterInfoSchema,
+  editRecruiterSocialsSchema,
+} from "~/validation/recruter";
 import { profileInfoSchema } from "~/validation/recruter/profileInfo";
 
 // Recruter router
@@ -59,4 +63,40 @@ export const recruterRouter = createTRPCRouter({
     // Return recruter
     return recruter;
   }),
+  /**
+   * edit recruiter
+   * @access protected
+   * @schema profileInfoSchema
+   * @returns recruter
+   */
+  editRecruiterInfo: protectedProcedure
+    .input(editRecruiterInfoSchema)
+    .mutation(async ({ input, ctx }) => {
+      // Get recruter
+      const recruter = await ctx.prisma.recruter.update({
+        where: {
+          userId: ctx.session.user.id,
+        },
+        data: {
+          ...input,
+        },
+      });
+      // Return updated recruter
+      return recruter;
+    }),
+  editRecruiterSocials: protectedProcedure
+    .input(editRecruiterSocialsSchema)
+    .mutation(async ({ input, ctx }) => {
+      // Get recruter
+      const recruter = await ctx.prisma.recruter.update({
+        where: {
+          userId: ctx.session.user.id,
+        },
+        data: {
+          ...input,
+        },
+      });
+      // Return updated recruter
+      return recruter;
+    }),
 });

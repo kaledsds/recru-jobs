@@ -11,7 +11,7 @@ import {
 } from "~/components/candidate/profile";
 
 // Edit page
-const Edit = () => {
+export default function Edit() {
   const { data: candidate } = api.candidate.getUserCandidate.useQuery();
 
   return (
@@ -23,7 +23,7 @@ const Edit = () => {
       </Head>
       <CandidateLayout>
         <div className="container">
-          <PageHeader title="Profile Page" Icon={UserCircle2} />
+          <PageHeader title="Edit Profile Page" Icon={UserCircle2} />
         </div>
         <div className="container">
           <div className="flex w-full">
@@ -54,6 +54,4 @@ const Edit = () => {
       </CandidateLayout>
     </>
   );
-};
-
-export default Edit;
+}
