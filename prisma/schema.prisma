@@ -62,20 +62,21 @@ model candidate {
 }
 
 model Job {
-    id          String       @id @default(cuid())
-    title       String
-    jobposition String
-    type        String
-    salary      String
-    hoursofwork String
-    location    String
-    recruter    Recruter     @relation(fields: [recruterId], references: [id], onDelete: Cascade)
-    recruterId  String
-    jobRequest  JobRequest[]
-    createdAt   DateTime     @default(now())
-    updatedAt   DateTime     @updatedAt
-    signal      Signal[]
-    gigRequest  GigRequest[]
+    id                String       @id @default(cuid())
+    title             String
+    description       String
+    yearsOfExperience String
+    type              String
+    salary            String
+    hoursofwork       String
+    location          String
+    recruter          Recruter     @relation(fields: [recruterId], references: [id], onDelete: Cascade)
+    recruterId        String
+    jobRequest        JobRequest[]
+    createdAt         DateTime     @default(now())
+    updatedAt         DateTime     @updatedAt
+    signal            Signal[]
+    gigRequest        GigRequest[]
 }
 
 model Gig {
