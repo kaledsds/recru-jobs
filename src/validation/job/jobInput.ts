@@ -8,7 +8,13 @@ export const jobInputSchema = z.object({
     })
     .min(3, "Job title must contain at least 3 character(s)")
     .max(20, "Job title must contain at most 20 character(s)"),
-  jobposition: z
+  description: z
+    .string({
+      required_error: "Job description is required!",
+    })
+    .min(3, "Job description must contain at least 3 character(s)")
+    .max(100, "Job position must contain at most 20 character(s)"),
+  yearsOfExperience: z
     .string({
       required_error: "Job position is required!",
     })

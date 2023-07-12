@@ -1,14 +1,43 @@
 import Head from "next/head";
 import { api } from "~/utils/api";
 import RecruterLayout from "~/layouts/recruter-layout";
-import { PageHeader } from "~/components/ui";
+import { PageHeader, Spinner } from "~/components/ui";
 import { ClipboardSignature } from "lucide-react";
+import { useForm } from "react-hook-form";
+import { jobInputSchema, type JobInputType } from "~/validation/job";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useState } from "react";
 
 /**
  *  PostAJob Page
  */
 const PostAJob = () => {
   const { data: recruter } = api.recruter.getUserRecruter.useQuery();
+  const [successMsg, setSuccessMsg] = useState<boolean>(false);
+  const ctx = api.useContext();
+
+  // Initialize the form hook for creating the job post.
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    reset,
+  } = useForm<JobInputType>({
+    resolver: zodResolver(jobInputSchema),
+  });
+  const postJob = api.job.createJob.useMutation({
+    onSuccess: async () => {
+      await ctx.job.invalidate();
+      setSuccessMsg(true);
+      setTimeout(() => {
+        setSuccessMsg(false);
+      }, 2000);
+      reset();
+    },
+  });
+  const onSubmit = async (data: JobInputType) => {
+    await postJob.mutateAsync(data);
+  };
 
   return (
     <>
@@ -28,15 +57,15 @@ const PostAJob = () => {
                   {/* Page noation */}
                   <div className="">
                     <p className="text:sm italic text-slate-500">
-                      NOTE: Lorem ipsum dolor sit amet consectetur adipisicing
-                      elit. Alias eaque blanditiis velit iste natus tenetur id
-                      nisi neque omnis consequuntur ex explicabo voluptatibus a
-                      culpa, ipsum eius aspernatur nulla nostrum?
+                      NOTE: Please fill out the job form below to post the job
+                      and allow candidates to apply. Your assistance is greatly
+                      appreciated in helping us finding the right talent for
+                      you!
                     </p>
                   </div>
                   <div className="divider"></div>
                   {/* FORM */}
-                  <form className="">
+                  <form onSubmit={handleSubmit(onSubmit)} className="">
                     <div className="container grid grid-cols-2 py-2">
                       {/* Form Col 1 */}
                       <div className="container space-y-4">
@@ -50,6 +79,7 @@ const PostAJob = () => {
                             type="text"
                             placeholder="Type here"
                             className="input-bordered input-primary input w-full"
+                            {...register("title")}
                           />
                         </div>
                         {/* Job Type */}
@@ -60,6 +90,7 @@ const PostAJob = () => {
                           <select
                             id="jobType"
                             className="select-primary select w-full"
+                            {...register("type")}
                           >
                             <option>Full Time</option>
                             <option>Half Time</option>
@@ -80,6 +111,7 @@ const PostAJob = () => {
                             type="text"
                             placeholder="Type here"
                             className="input-bordered input-primary input w-full"
+                            {...register("hoursofwork")}
                           />
                         </div>
                       </div>
@@ -98,6 +130,7 @@ const PostAJob = () => {
                             type="text"
                             placeholder="Type here"
                             className="input-bordered input-primary input w-full"
+                            {...register("location")}
                           />
                         </div>
                         {/* Years Of Experience */}
@@ -111,6 +144,7 @@ const PostAJob = () => {
                           <select
                             id="yearsOfExperience"
                             className="select-primary select w-full"
+                            {...register("yearsOfExperience")}
                           >
                             <option>Less then one year</option>
                             <option>1 year</option>
@@ -130,6 +164,7 @@ const PostAJob = () => {
                             type="text"
                             placeholder="Type here"
                             className="input-bordered input-primary input w-full"
+                            {...register("salary")}
                           />
                         </div>
                       </div>
@@ -147,13 +182,35 @@ const PostAJob = () => {
                           id="jobDescription"
                           className="textarea-primary textarea h-36"
                           placeholder="Bio"
+                          {...register("description")}
                         ></textarea>
                       </div>
                     </div>
                     <div className="divider"></div>
                     {/* Submit btn */}
                     <div className="flex items-center justify-center">
-                      <button className="btn-primary btn">Button</button>
+                      <button type="submit" className="btn-primary btn">
+                        post
+                      </button>
+                    </div>
+                    <div className="flex flex-col justify-center p-4">
+                      <div className="flex justify-center">
+                        {postJob.isLoading && <Spinner />}
+                      </div>
+                      {successMsg && (
+                        <span className="flex justify-center text-green-500">
+                          Updated successfully
+                        </span>
+                      )}
+                      <div className="flex items-center justify-center text-red-600">
+                        {errors.title?.message}
+                        {errors.description?.message}
+                        {errors.yearsOfExperience?.message}
+                        {errors.type?.message}
+                        {errors.salary?.message}
+                        {errors.hoursofwork?.message}
+                        {errors.location?.message}
+                      </div>
                     </div>
                   </form>
                 </div>
