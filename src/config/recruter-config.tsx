@@ -10,13 +10,13 @@ export const recruterConfig = {
         {
           id: "postajob",
           name: "Post A Job",
-          href: "/recruter/postajob",
+          href: "/recruter/post-a-job",
           icon: <ClipboardSignature className="h-5 w-5" />,
         },
         {
           id: "managejobs",
           name: "Manage Jobs",
-          href: "/recruter/managejobs",
+          href: "/recruter/manage-jobs",
           icon: <FileCog2 className="h-5 w-5" />,
         },
       ],
