@@ -152,15 +152,19 @@ export default function Profile() {
               <div className="divider divider-horizontal"></div>
               <div className="container card rounded-box grid flex-grow border border-primary bg-base-300 py-7">
                 <div className="divider"></div>
-                <h1 className="flex justify-center rounded-lg bg-primary py-2 text-xl font-bold text-slate-100">
-                  Resume
-                </h1>
+                <div className="-my-3">
+                  <h1 className="flex justify-center rounded-lg bg-primary py-2 text-xl font-bold text-slate-100">
+                    Resume
+                  </h1>
+                </div>
                 <div className="divider"></div>
                 <div className="flex w-full justify-center">
                   <div className="flex w-[300px] justify-center">
-                    <Worker workerUrl="https://unpkg.com/pdfjs-dist@3.6.172/build/pdf.worker.js">
-                      <Viewer fileUrl={resume} />
-                    </Worker>
+                    {resume && (
+                      <Worker workerUrl="https://unpkg.com/pdfjs-dist@3.6.172/build/pdf.worker.js">
+                        <Viewer fileUrl={resume} />
+                      </Worker>
+                    )}
                   </div>
                 </div>
                 <div className="divider"></div>

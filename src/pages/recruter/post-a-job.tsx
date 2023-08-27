@@ -65,7 +65,7 @@ const PostAJob = () => {
                   </div>
                   <div className="divider"></div>
                   {/* FORM */}
-                  <form onSubmit={handleSubmit(onSubmit)} className="">
+                  <form onSubmit={handleSubmit(onSubmit)}>
                     <div className="container grid grid-cols-2 py-2">
                       {/* Form Col 1 */}
                       <div className="container space-y-4">

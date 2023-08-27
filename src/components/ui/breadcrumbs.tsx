@@ -26,7 +26,7 @@ const Breadcrumbs: React.FC<BreadcrumbsProps> = ({ baseRoute }) => {
                 index === routes.length - 1 && "text-primary"
               )}
             >
-              {route}
+              {(!route.includes("[id]") && route) || ""}
             </Link>
           </li>
         ))}

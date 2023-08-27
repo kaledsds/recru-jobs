@@ -1,4 +1,6 @@
+import { LayoutDashboard } from "lucide-react";
 import Head from "next/head";
+import { PageHeader } from "~/components/ui";
 import RecruterLayout from "~/layouts/recruter-layout";
 
 /**
@@ -13,7 +15,9 @@ export default function Recruter() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <RecruterLayout>
-        <main>Recruter Page</main>
+        <div className="container">
+          <PageHeader title="Dashboard" Icon={LayoutDashboard} />
+        </div>
       </RecruterLayout>
     </>
   );
