@@ -10,13 +10,13 @@ export const candidateConfig = {
         {
           id: "postagig",
           name: "Post A Gig",
-          href: "/candidate/postagig",
+          href: "/candidate/post-a-gig",
           icon: <UserPlus2 className="h-5 w-5" />,
         },
         {
           id: "managegigs",
           name: "Manage Gigs",
-          href: "/candidate/managegigs",
+          href: "/candidate/manage-gigs",
           icon: <UserCog2 className="h-5 w-5" />,
         },
       ],

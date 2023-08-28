@@ -81,7 +81,7 @@ model Job {
 model Gig {
     id          String       @id @default(cuid())
     title       String
-    categoru    String
+    category    String
     serviceType String
     salary      String
     candidate   candidate    @relation(fields: [candidateId], references: [id], onDelete: Cascade)

@@ -1,4 +1,6 @@
+import { LayoutDashboard } from "lucide-react";
 import Head from "next/head";
+import { PageHeader } from "~/components/ui";
 import CandidateLayout from "~/layouts/candidate-layout";
 
 /**
@@ -13,7 +15,9 @@ export default function Candidate() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <CandidateLayout>
-        <main>Candidate Page</main>
+        <div className="container">
+          <PageHeader title="Dashboard" Icon={LayoutDashboard} />
+        </div>
       </CandidateLayout>
     </>
   );
