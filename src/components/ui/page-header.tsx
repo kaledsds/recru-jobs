@@ -24,7 +24,7 @@ const PageHeader: React.FC<PageHeaderProps> = ({ title, Icon, children }) => {
           </span>
           <h1 className="text-xl font-bold">{title}</h1>
         </div>
-        <div>{children}</div>
+        <div className="w-[50%]">{children}</div>
         <div>
           <Breadcrumbs baseRoute={router.route} />
         </div>

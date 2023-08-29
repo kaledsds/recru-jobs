@@ -5,6 +5,7 @@ import Navbar from "./navbar";
 import ThemeApplyer from "./theme-applyer";
 import PageHeader from "./page-header";
 import DashboardTheme from "./dashboard-theme";
+import Footer from "./footer";
 
 export {
   Spinner,
@@ -14,4 +15,5 @@ export {
   ThemeApplyer,
   PageHeader,
   DashboardTheme,
+  Footer,
 };

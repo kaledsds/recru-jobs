@@ -1,4 +1,9 @@
-import { createTRPCRouter, protectedProcedure } from "~/server/api/trpc";
+import { z } from "zod";
+import {
+  createTRPCRouter,
+  protectedProcedure,
+  publicProcedure,
+} from "~/server/api/trpc";
 import {
   editRecruiterInfoSchema,
   editRecruiterSocialsSchema,
@@ -7,6 +12,25 @@ import { profileInfoSchema } from "~/validation/recruter/profileInfo";
 
 // Recruter router
 export const recruterRouter = createTRPCRouter({
+  getRecruterById: publicProcedure
+    .input(
+      z.object({
+        id: z.string(),
+      })
+    )
+    .query(async ({ input, ctx }) => {
+      // Get recruter
+      const recruter = await ctx.prisma.recruter.findFirst({
+        where: {
+          id: input.id,
+        },
+        include: {
+          user: true,
+        },
+      });
+      // Return recruter
+      return recruter;
+    }),
   /**
    * Create recruter
    * @access protected

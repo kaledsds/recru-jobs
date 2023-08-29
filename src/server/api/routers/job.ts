@@ -1,9 +1,17 @@
 import { jobInputSchema } from "~/validation/job";
-import { createTRPCRouter, protectedProcedure } from "../trpc";
+import { createTRPCRouter, protectedProcedure, publicProcedure } from "../trpc";
 import { z } from "zod";
 import { editJobPostSchema } from "~/validation/job/editJobPost";
 
 export const jobRouter = createTRPCRouter({
+  getjobs: publicProcedure.query(async ({ ctx }) => {
+    const jobs = await ctx.prisma.job.findMany({
+      include: {
+        recruter: true,
+      },
+    });
+    return jobs;
+  }),
   /**
    * Create job post
    * @access protected
@@ -88,7 +96,7 @@ export const jobRouter = createTRPCRouter({
     });
     return jobs;
   }),
-  getJobById: protectedProcedure
+  getJobById: publicProcedure
     .input(
       z.object({
         id: z.string().optional(),

@@ -1,5 +1,5 @@
 import { editGigInputSchema, gigInputSchema } from "~/validation/gig";
-import { createTRPCRouter, protectedProcedure } from "../trpc";
+import { createTRPCRouter, protectedProcedure, publicProcedure } from "../trpc";
 import { z } from "zod";
 
 export const gigRouter = createTRPCRouter({
@@ -57,7 +57,7 @@ export const gigRouter = createTRPCRouter({
     });
     return gigs;
   }),
-  getGigById: protectedProcedure
+  getGigById: publicProcedure
     .input(
       z.object({
         id: z.string(),
