@@ -74,11 +74,14 @@ const EditJobPost: React.FC<EditJobProps> = ({ jobPost }) => {
                 <div className="container space-y-4">
                   {/* Job Title */}
                   <div className="container flex flex-col gap-1.5">
-                    <label className="pl-1 font-bold" htmlFor="jobTitle">
+                    <label
+                      className="pl-1 font-bold"
+                      htmlFor={`jobTitle${jobPost.id}`}
+                    >
                       Job Title :
                     </label>
                     <input
-                      id="jobTitle"
+                      id={`jobTitle${jobPost.id}`}
                       type="text"
                       className="input-bordered input-primary input w-full"
                       {...register("title")}
@@ -86,11 +89,14 @@ const EditJobPost: React.FC<EditJobProps> = ({ jobPost }) => {
                   </div>
                   {/* Job Type */}
                   <div className="container flex flex-col gap-1.5">
-                    <label className="pl-1 font-bold" htmlFor="jobType">
+                    <label
+                      className="pl-1 font-bold"
+                      htmlFor={`jobType${jobPost.id}`}
+                    >
                       Job Type :
                     </label>
                     <select
-                      id="jobType"
+                      id={`jobType${jobPost.id}`}
                       className="select-primary select w-full"
                       {...register("type")}
                     >
@@ -102,11 +108,14 @@ const EditJobPost: React.FC<EditJobProps> = ({ jobPost }) => {
                   </div>
                   {/* Hours of Work */}
                   <div className="container flex flex-col gap-1.5">
-                    <label className="pl-1 font-bold" htmlFor="hoursOfWork">
+                    <label
+                      className="pl-1 font-bold"
+                      htmlFor={`hoursOfWork${jobPost.id}`}
+                    >
                       Hours of work :{" "}
                     </label>
                     <input
-                      id="hoursOfWork"
+                      id={`hoursOfWork${jobPost.id}`}
                       type="text"
                       className="input-bordered input-primary input w-full"
                       {...register("hoursofwork")}
@@ -117,11 +126,14 @@ const EditJobPost: React.FC<EditJobProps> = ({ jobPost }) => {
                 {/* Job Location */}
                 <div className="container space-y-4">
                   <div className="container flex flex-col gap-1.5">
-                    <label className="pl-1 font-bold" htmlFor="jobLocation">
+                    <label
+                      className="pl-1 font-bold"
+                      htmlFor={`jobLocation${jobPost.id}`}
+                    >
                       Job Location :{" "}
                     </label>
                     <input
-                      id="jobLocation"
+                      id={`jobLocation${jobPost.id}`}
                       type="text"
                       className="input-bordered input-primary input w-full"
                       {...register("location")}
@@ -131,12 +143,12 @@ const EditJobPost: React.FC<EditJobProps> = ({ jobPost }) => {
                   <div className="container flex flex-col gap-1.5">
                     <label
                       className="pl-1 font-bold"
-                      htmlFor="yearsOfExperience"
+                      htmlFor={`yearsOfExperience${jobPost.id}`}
                     >
                       Years Of Experience :{" "}
                     </label>
                     <select
-                      id="yearsOfExperience"
+                      id={`yearsOfExperience${jobPost.id}`}
                       className="select-primary select w-full"
                       {...register("yearsOfExperience")}
                     >
@@ -150,11 +162,14 @@ const EditJobPost: React.FC<EditJobProps> = ({ jobPost }) => {
                   </div>
                   {/* Salary */}
                   <div className="container flex flex-col gap-1.5">
-                    <label className="pl-1 font-bold" htmlFor="salary">
+                    <label
+                      className="pl-1 font-bold"
+                      htmlFor={`salary${jobPost.id}`}
+                    >
                       Salary :{" "}
                     </label>
                     <input
-                      id="salary"
+                      id={`salary${jobPost.id}`}
                       type="text"
                       className="input-bordered input-primary input w-full"
                       {...register("salary")}
@@ -165,11 +180,14 @@ const EditJobPost: React.FC<EditJobProps> = ({ jobPost }) => {
               {/* Job Description */}
               <div className="container py-4">
                 <div className="flex flex-col gap-1.5 px-12">
-                  <label className="pl-1 font-bold" htmlFor="jobDescription">
+                  <label
+                    className="pl-1 font-bold"
+                    htmlFor={`jobDescription${jobPost.id}`}
+                  >
                     Job Description:{" "}
                   </label>
                   <textarea
-                    id="jobDescription"
+                    id={`jobDescription${jobPost.id}`}
                     className="textarea-primary textarea h-36"
                     {...register("description")}
                   ></textarea>

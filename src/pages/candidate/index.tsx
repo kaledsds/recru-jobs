@@ -64,11 +64,11 @@ export default function Candidate() {
                     <h1 className="text-xl font-bold">Filtter :</h1>
                     <div className="container">
                       <div className="container flex flex-col gap-1.5 p-0">
-                        <label className="pl-1" htmlFor="jobType">
+                        <label className="pl-1" htmlFor="gigType">
                           Job Type :
                         </label>
                         <select
-                          id="jobType"
+                          id="gigType"
                           className="select-primary select w-full"
                         >
                           <option>Full Time</option>
@@ -78,11 +78,11 @@ export default function Candidate() {
                         </select>
                       </div>
                       <div className="container flex flex-col gap-1.5 p-0">
-                        <label className="pl-1" htmlFor="yearsOfExperience">
+                        <label className="pl-1" htmlFor="category">
                           Years Of Experience :
                         </label>
                         <select
-                          id="yearsOfExperience"
+                          id="category"
                           className="select-primary select w-full"
                         >
                           <option>Less then one year</option>

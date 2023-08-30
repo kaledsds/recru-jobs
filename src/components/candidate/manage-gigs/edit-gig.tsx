@@ -71,11 +71,14 @@ const EditGigPost: React.FC<EditGigPostProps> = ({ gigPost }) => {
                 <div className="container space-y-4">
                   {/* Job Title */}
                   <div className="container flex flex-col gap-1.5">
-                    <label className="pl-1 font-bold" htmlFor="gigTitle">
+                    <label
+                      className="pl-1 font-bold"
+                      htmlFor={`jobTitle${gigPost.id}`}
+                    >
                       Gig Title :{" "}
                     </label>
                     <input
-                      id="jobTitle"
+                      id={`jobTitle${gigPost.id}`}
                       type="text"
                       placeholder="Type here"
                       className="input-bordered input-primary input w-full"
@@ -84,11 +87,14 @@ const EditGigPost: React.FC<EditGigPostProps> = ({ gigPost }) => {
                   </div>
                   {/* Category */}
                   <div className="container flex flex-col gap-1.5">
-                    <label className="pl-1 font-bold" htmlFor="category">
+                    <label
+                      className="pl-1 font-bold"
+                      htmlFor={`category${gigPost.id}`}
+                    >
                       Category :{" "}
                     </label>
                     <input
-                      id="category"
+                      id={`category${gigPost.id}`}
                       type="text"
                       placeholder="Type here"
                       className="input-bordered input-primary input w-full"
@@ -100,11 +106,14 @@ const EditGigPost: React.FC<EditGigPostProps> = ({ gigPost }) => {
                 {/* Job Location */}
                 <div className="container space-y-4">
                   <div className="container flex flex-col gap-1.5">
-                    <label className="pl-1 font-bold" htmlFor="jobLocation">
+                    <label
+                      className="pl-1 font-bold"
+                      htmlFor={`serviceType${gigPost.id}`}
+                    >
                       Service Type :{" "}
                     </label>
                     <input
-                      id="serviceType"
+                      id={`serviceType${gigPost.id}`}
                       type="text"
                       placeholder="Type here"
                       className="input-bordered input-primary input w-full"
@@ -113,11 +122,14 @@ const EditGigPost: React.FC<EditGigPostProps> = ({ gigPost }) => {
                   </div>
                   {/* Salary */}
                   <div className="container flex flex-col gap-1.5">
-                    <label className="pl-1 font-bold" htmlFor="salary">
+                    <label
+                      className="pl-1 font-bold"
+                      htmlFor={`salary${gigPost.id}`}
+                    >
                       Salary :{" "}
                     </label>
                     <input
-                      id="salary"
+                      id={`salary${gigPost.id}`}
                       type="text"
                       placeholder="Type here"
                       className="input-bordered input-primary input w-full"

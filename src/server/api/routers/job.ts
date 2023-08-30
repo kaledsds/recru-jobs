@@ -96,6 +96,16 @@ export const jobRouter = createTRPCRouter({
     });
     return jobs;
   }),
+  getJobByRecruterId: protectedProcedure.query(async ({ ctx }) => {
+    const jobs = await ctx.prisma.job.findMany({
+      where: {
+        recruter: {
+          userId: ctx.session.user.id,
+        },
+      },
+    });
+    return jobs;
+  }),
   getJobById: publicProcedure
     .input(
       z.object({

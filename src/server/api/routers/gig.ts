@@ -3,6 +3,18 @@ import { createTRPCRouter, protectedProcedure, publicProcedure } from "../trpc";
 import { z } from "zod";
 
 export const gigRouter = createTRPCRouter({
+  getgigs: publicProcedure.query(async ({ ctx }) => {
+    const gigs = await ctx.prisma.gig.findMany({
+      include: {
+        candidate: {
+          include: {
+            user: true,
+          },
+        },
+      },
+    });
+    return gigs;
+  }),
   createGig: protectedProcedure
     .input(gigInputSchema)
     .mutation(async ({ input, ctx }) => {
