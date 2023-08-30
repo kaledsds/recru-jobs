@@ -1,7 +1,9 @@
 import type { Job } from "@prisma/client";
+import { MoreVertical } from "lucide-react";
 import Image from "next/image";
 import React from "react";
 import { api } from "~/utils/api";
+import { Spinner } from "~/components/ui";
 
 interface JobCardTwoProps {
   job: Job;
@@ -12,15 +14,18 @@ const JobCardTwo: React.FC<JobCardTwoProps> = ({ job }) => {
     id: job.recruterId,
   });
 
+  if (!recruter) {
+    return <Spinner />;
+  }
+
   return (
     <>
-      {" "}
       <div className="card w-full border border-primary bg-base-200 shadow-md">
         <div className="card-body gap-5">
           <div className="flex items-center justify-start gap-3">
             <Image
               className="rounded-full"
-              src={recruter?.user.image || "/images/user.png"}
+              src={recruter?.user.image as string}
               alt="user"
               width={50}
               height={50}
@@ -28,6 +33,24 @@ const JobCardTwo: React.FC<JobCardTwoProps> = ({ job }) => {
             <div>
               <h2 className="card-title">{recruter?.user.name}</h2>
               <p>is looking for</p>
+            </div>
+            <p className="mr-1 flex items-center justify-end text-slate-500">
+              {job?.createdAt.toLocaleString()}
+            </p>
+            <div className="dropdown-end dropdown">
+              <label tabIndex={0} className="btn-ghost btn-circle avatar btn">
+                <div className="rounded-full ">
+                  <MoreVertical />
+                </div>
+              </label>
+              <ul
+                tabIndex={0}
+                className="dropdown-content menu rounded-box menu-compact mt-3 w-52 bg-base-100 p-2 shadow"
+              >
+                <li>
+                  <a>Report User</a>
+                </li>
+              </ul>
             </div>
           </div>
           <h2 className="card-title font-bold text-primary">{job.title}</h2>

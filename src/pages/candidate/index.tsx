@@ -79,7 +79,7 @@ export default function Candidate() {
                       </div>
                       <div className="container flex flex-col gap-1.5 p-0">
                         <label className="pl-1" htmlFor="yearsOfExperience">
-                          Years Of Experience :{" "}
+                          Years Of Experience :
                         </label>
                         <select
                           id="yearsOfExperience"

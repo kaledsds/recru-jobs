@@ -28,14 +28,11 @@ const ManageGigCard: React.FC<ManageGigCardProps> = ({ gig }) => {
         </div>
         <div className="flex justify-between">
           <span className="text-lg font-semibold">Posted at:</span>
-          <span className="text-lg">date</span>
+          <span className="text-lg"> {gig?.createdAt.toLocaleString()}</span>
         </div>
       </div>
       {/* Job actions */}
       <div className="flex justify-center gap-24 py-2">
-        {/* <button className="btn-sm btn border-red-500 bg-red-500 text-slate-100 hover:border-red-600 hover:bg-red-600">
-          Delete
-        </button> */}
         <DeleteGig id={gig.id} />
         <Link
           href={`/candidate/manage-gigs/edit/${gig.id}`}

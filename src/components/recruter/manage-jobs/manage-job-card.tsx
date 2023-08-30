@@ -29,7 +29,7 @@ const ManageJobCard: React.FC<ManageJobCardProps> = ({ job }) => {
         </div>
         <div className="flex justify-between">
           <span className="text-lg font-semibold">Posted at:</span>
-          <span className="text-lg">date</span>
+          <span className="text-lg"> {job?.createdAt.toLocaleString()}</span>
         </div>
       </div>
       {/* Job actions */}

@@ -34,12 +34,10 @@ const JobPost = () => {
         <main>
           <PageHeader title="Job post" Icon={Briefcase} />
           <div className="flex">
-            <div className="container rounded-box w-[50%] space-y-4 bg-base-300 p-8">
+            <div className="container rounded-box w-[60%] space-y-4 bg-base-300 p-8">
               <p className="text:sm italic text-slate-500">
-                NOTE: Enhance your job hunting strategy with our advanced search
-                bar and comprehensive filter section. Find your ideal job by
-                customizing your search based on keywords, location, industry,
-                and more.
+                NOTE: Take your time to explore the details of each position and
+                apply for the ones that resonate with your skills and ambitions.
               </p>
               <JobCardTwo job={job} key={job.id} />
               {jobList.data?.map(
@@ -47,7 +45,7 @@ const JobPost = () => {
                   job.id !== query.id && <JobCard job={job} key={job.id} />
               )}
             </div>
-            <div className="container w-[50%]">
+            <div className="container w-[40%]">
               <JobDetails job={job} />
             </div>
           </div>

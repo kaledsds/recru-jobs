@@ -1,19 +1,16 @@
-import type { Job } from "@prisma/client";
+import type { Job, Recruter, User } from "@prisma/client";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
-import { api } from "~/utils/api";
+import JobApply from "./job-apply";
 
 interface JobCardDetailsProps {
-  job: Job;
+  job: Job & { recruter: Recruter & { user: User } };
 }
 
 const JobDetails: React.FC<JobCardDetailsProps> = ({ job }) => {
   const { data: session } = useSession();
-  const { data: recruter } = api.recruter.getRecruterById.useQuery({
-    id: job.recruterId,
-  });
 
   return (
     <>
@@ -22,13 +19,13 @@ const JobDetails: React.FC<JobCardDetailsProps> = ({ job }) => {
           <div className="flex items-center justify-start gap-3">
             <Image
               className="rounded-full"
-              src={recruter?.user?.image || "/images/user.png"}
+              src={job.recruter.user.image as string}
               alt="user"
               width={50}
               height={50}
             />
             <div>
-              <h2 className="card-title">{recruter?.user.name}</h2>
+              <h2 className="card-title">{job.recruter.user.name}</h2>
             </div>
           </div>
           <p className="mr-1 flex items-center justify-end text-slate-500">
@@ -65,27 +62,32 @@ const JobDetails: React.FC<JobCardDetailsProps> = ({ job }) => {
               {/* job title */}
               <div className="flex items-center space-x-3">
                 <h2 className="card-title">Job title :</h2>
-                <p> {job?.title}</p>
+                <p> {job.title}</p>
               </div>
               {/* Location */}
               <div className="flex items-center space-x-3">
                 <h2 className="card-title">Location :</h2>
-                <p>{job?.location}</p>
+                <p>{job.location}</p>
               </div>
               {/* job type */}
               <div className="flex items-center space-x-3">
                 <h2 className="card-title">job type :</h2>
-                <p>{job?.type} job</p>
+                <p>{job.type} job</p>
               </div>
               {/* salary */}
               <div className="flex items-center space-x-3">
                 <h2 className="card-title">salary :</h2>
-                <p>{job?.salary}</p>
+                <p>{job.salary}</p>
+              </div>
+              {/* Hours of work */}
+              <div className="flex items-center space-x-3">
+                <h2 className="card-title">Hours of work :</h2>
+                <p>{job.hoursofwork}</p>
               </div>
               {/* years of Experience */}
               <div className="flex items-center space-x-3">
                 <h2 className="card-title">years of Experience :</h2>
-                <p>{job?.yearsOfExperience}</p>
+                <p>{job.yearsOfExperience}</p>
               </div>
             </div>
           </div>
@@ -97,9 +99,8 @@ const JobDetails: React.FC<JobCardDetailsProps> = ({ job }) => {
           <p>{job.description}</p>
         </div>
         <div className="card-actions justify-end">
-          {recruter?.user.id !== session?.user.id && job?.id && (
-            <h1>Apply</h1>
-            // <JobApply jobId={job.id} />
+          {job.recruter.user.id !== session?.user.id && job?.id && (
+            <JobApply jobId={job.id} />
           )}
         </div>
       </div>

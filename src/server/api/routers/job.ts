@@ -110,6 +110,13 @@ export const jobRouter = createTRPCRouter({
         where: {
           id: input.id,
         },
+        include: {
+          recruter: {
+            include: {
+              user: true,
+            },
+          },
+        },
       });
       return jobPost;
     }),
