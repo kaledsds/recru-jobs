@@ -36,6 +36,39 @@ export const gigRequestRouter = createTRPCRouter({
   //     }
   //     return false;
   //   }),
+  getRequestByRecruter: protectedProcedure.query(async ({ ctx }) => {
+    const recruter = await ctx.prisma.recruter.findFirst({
+      where: {
+        userId: ctx.session.user.id,
+      },
+      select: {
+        id: true,
+      },
+    });
+    if (!recruter) {
+      throw new Error("Candidate not found");
+    }
+    const gigRequests = await ctx.prisma.gigRequest.findMany({
+      where: {
+        job: {
+          recruterId: recruter.id,
+        },
+      },
+      include: {
+        gig: {
+          include: {
+            candidate: {
+              include: {
+                user: true,
+              },
+            },
+          },
+        },
+        job: true,
+      },
+    });
+    return { gigRequests };
+  }),
   createGigRequest: protectedProcedure
     .input(
       z.object({
@@ -68,5 +101,32 @@ export const gigRequestRouter = createTRPCRouter({
         throw new TRPCError({ code: "BAD_REQUEST" });
       }
       return { jobRequest };
+    }),
+  deletGigRequest: protectedProcedure
+    .input(
+      z.object({
+        id: z.string({ required_error: "request id is required" }).cuid(),
+      })
+    )
+    .mutation(async ({ ctx, input }) => {
+      const gigRequest = await ctx.prisma.gigRequest.findFirst({
+        where: {
+          id: input.id,
+        },
+        include: {
+          recruter: true,
+        },
+      });
+      if (!gigRequest) {
+        throw new TRPCError({ code: "NOT_FOUND" });
+      }
+      if (gigRequest.recruter.userId !== ctx.session.user.id) {
+        throw new TRPCError({ code: "FORBIDDEN" });
+      }
+      return await ctx.prisma.gigRequest.delete({
+        where: {
+          id: input.id,
+        },
+      });
     }),
 });
