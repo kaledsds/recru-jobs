@@ -23,7 +23,7 @@ const Received = () => {
             {/* head */}
             <thead>
               <tr>
-                <th>Name</th>
+                <th>Candidate Name</th>
                 <th>Requesting on</th>
                 <th>request status</th>
                 <th>
@@ -32,12 +32,9 @@ const Received = () => {
               </tr>
             </thead>
             <tbody>
-              {JobRequests?.jobRequests.map(
-                (request) =>
-                  request.status !== "declined" && (
-                    <ReceivedRequestRow key={request.id} request={request} />
-                  )
-              )}
+              {JobRequests?.jobRequests.map((request) => (
+                <ReceivedRequestRow key={request.id} request={request} />
+              ))}
             </tbody>
             {/* foot */}
             <tfoot>

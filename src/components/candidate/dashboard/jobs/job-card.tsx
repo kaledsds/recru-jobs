@@ -31,7 +31,12 @@ const JobCard: React.FC<JobCardProps> = ({ job }) => {
               height={50}
             />
             <div>
-              <h2 className="card-title">{recruter?.user.name}</h2>
+              <Link
+                href={`/recruter/profile/${recruter?.user.id}`}
+                className="card-title"
+              >
+                {recruter?.user.name}
+              </Link>
               <p>is looking for</p>
             </div>
             <p className="mr-1 flex items-center justify-end text-slate-500">

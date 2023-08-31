@@ -2,6 +2,7 @@ import type { Gig, Job, User, candidate } from "@prisma/client";
 import { Check, Trash2, X } from "lucide-react";
 import { Clock } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 import React from "react";
 import { api } from "~/utils/api";
 
@@ -44,12 +45,15 @@ const SentRequestRow: React.FC<SentRequestRowProps> = ({
               </div>
             </div>
             <div>
-              <div className="font-bold">{gig.candidate.user.name}</div>
-              {status === "accepted" && (
-                <div className="text-sm opacity-50">
-                  {gig.candidate.user.email}
-                </div>
-              )}
+              <Link
+                href={`/candidate/profile/${gig.candidate.user.id}`}
+                className="font-bold"
+              >
+                {gig.candidate.user.name}
+              </Link>
+              <div className="text-sm opacity-50">
+                {gig.candidate.user.email}
+              </div>
             </div>
           </div>
         </td>

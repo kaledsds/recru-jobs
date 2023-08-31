@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { createTRPCRouter, protectedProcedure } from "../trpc";
+import { createTRPCRouter, protectedProcedure, publicProcedure } from "../trpc";
 import { TRPCError } from "@trpc/server";
 
 export const gigRequestRouter = createTRPCRouter({
@@ -36,6 +36,36 @@ export const gigRequestRouter = createTRPCRouter({
   //     }
   //     return false;
   //   }),
+  getGigRequestByCandidate: protectedProcedure.query(async ({ ctx }) => {
+    const candidate = await ctx.prisma.candidate.findFirst({
+      where: {
+        userId: ctx.session.user.id,
+      },
+      select: {
+        id: true,
+      },
+    });
+    if (!candidate) {
+      throw new Error("Candidate not found");
+    }
+    const gigRequests = await ctx.prisma.gigRequest.findMany({
+      where: {
+        gig: {
+          candidateId: candidate.id,
+        },
+      },
+      include: {
+        gig: true,
+        job: true,
+        recruter: {
+          include: {
+            user: true,
+          },
+        },
+      },
+    });
+    return { gigRequests };
+  }),
   getRequestByRecruter: protectedProcedure.query(async ({ ctx }) => {
     const recruter = await ctx.prisma.recruter.findFirst({
       where: {
@@ -101,6 +131,25 @@ export const gigRequestRouter = createTRPCRouter({
         throw new TRPCError({ code: "BAD_REQUEST" });
       }
       return { jobRequest };
+    }),
+  editGigRequest: publicProcedure
+    .input(
+      z.object({
+        id: z.string({ required_error: "job request id is required" }),
+        status: z.enum(["pending", "accepted", "declined"]),
+      })
+    )
+    .mutation(async ({ ctx, input }) => {
+      const { id, status } = input;
+      const gigRequest = await ctx.prisma.gigRequest.update({
+        where: {
+          id: id,
+        },
+        data: {
+          status: status,
+        },
+      });
+      return { gigRequest };
     }),
   deletGigRequest: protectedProcedure
     .input(

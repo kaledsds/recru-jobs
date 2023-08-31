@@ -4,6 +4,7 @@ import { useSession } from "next-auth/react";
 import Image from "next/image";
 import React from "react";
 import GigRecrute from "./gig-recrute";
+import Link from "next/link";
 
 interface GigCardProps {
   recruterJobs: Job[];
@@ -36,7 +37,12 @@ const GigCard: React.FC<GigCardProps> = ({ gig, recruterJobs }) => {
               height={50}
             />
             <div>
-              <h2 className="card-title">{gig.candidate.user.name}</h2>
+              <Link
+                href={`/candidate/profile/${gig.candidate.user.id}`}
+                className="card-title"
+              >
+                {gig.candidate.user.name}
+              </Link>
               <p>is looking for</p>
             </div>
             <p className="mr-1 flex items-center justify-end text-slate-500">

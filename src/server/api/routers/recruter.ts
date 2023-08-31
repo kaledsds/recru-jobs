@@ -77,6 +77,22 @@ export const recruterRouter = createTRPCRouter({
    * @access protected
    * @returns recruter
    */
+  getRecruterProfile: protectedProcedure
+    .input(
+      z.object({
+        id: z.string(),
+      })
+    )
+    .query(async ({ ctx, input }) => {
+      // Get recruter
+      const recruter = await ctx.prisma.recruter.findFirst({
+        where: {
+          userId: input.id,
+        },
+      });
+      // Return recruter
+      return recruter;
+    }),
   getUserRecruter: protectedProcedure.query(async ({ ctx }) => {
     // Get recruter
     const recruter = await ctx.prisma.recruter.findFirst({

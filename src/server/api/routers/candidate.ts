@@ -5,6 +5,7 @@ import {
   editCondidateInfoSchema,
   editCondidateSocialsSchema,
 } from "~/validation/candidate";
+import { z } from "zod";
 
 // Candidate router
 export const candidateRouter = createTRPCRouter({
@@ -49,6 +50,21 @@ export const candidateRouter = createTRPCRouter({
     }
     return false;
   }),
+  getCandidateProfile: protectedProcedure
+    .input(
+      z.object({
+        id: z.string(),
+      })
+    )
+    .query(async ({ ctx, input }) => {
+      // Get candidate
+      const candidate = await ctx.prisma.candidate.findFirst({
+        where: {
+          userId: input.id,
+        },
+      });
+      return candidate;
+    }),
   /**
    * Get user candidate
    * @access protected

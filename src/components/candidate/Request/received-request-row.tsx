@@ -1,16 +1,15 @@
-import type { Job, JobRequest, User, candidate } from "@prisma/client";
-import { Check } from "lucide-react";
-import { X } from "lucide-react";
-import { Clock } from "lucide-react";
+import type { Gig, GigRequest, Job, Recruter, User } from "@prisma/client";
+import { Check, Clock, X } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 import { api } from "~/utils/api";
 
 interface ReceivedRequestRowProps {
-  request: JobRequest & {
+  request: GigRequest & {
+    gig: Gig;
     job: Job;
-    candidate: candidate & {
+    recruter: Recruter & {
       user: User;
     };
   };
@@ -18,9 +17,9 @@ interface ReceivedRequestRowProps {
 
 const ReceivedRequestRow: React.FC<ReceivedRequestRowProps> = ({ request }) => {
   const ctx = api.useContext();
-  const setStatus = api.jobRequest.editJobRequest.useMutation({
+  const setStatus = api.gigRequest.editGigRequest.useMutation({
     onSuccess: async () => {
-      await ctx.jobRequest.invalidate();
+      await ctx.gigRequest.invalidate();
     },
   });
 
@@ -31,8 +30,8 @@ const ReceivedRequestRow: React.FC<ReceivedRequestRowProps> = ({ request }) => {
           <div className="avatar">
             <div className="mask mask-squircle h-12 w-12">
               <Image
-                src={request.candidate.user.image as string}
-                alt={request.candidate.user.name as string}
+                src={request.recruter.user.image as string}
+                alt={request.recruter.user.name as string}
                 width={50}
                 height={50}
               />
@@ -40,17 +39,18 @@ const ReceivedRequestRow: React.FC<ReceivedRequestRowProps> = ({ request }) => {
           </div>
           <div>
             <Link
-              href={`/candidate/profile/${request.candidate.user.id}`}
+              href={`/recruter/profile/${request.recruter.user.id}`}
               className="font-bold"
             >
-              {request.candidate.user.name}
+              {request.recruter.user.name}
             </Link>
             <div className="text-sm opacity-50">
-              {request.candidate.user.email}
+              {request.recruter.user.email}
             </div>
           </div>
         </div>
       </td>
+      <td>{request.gig.title}</td>
       <td>{request.job.title}</td>
       {request.status === "pending" && (
         <td>
