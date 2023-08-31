@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { createTRPCRouter, protectedProcedure } from "../trpc";
+import { createTRPCRouter, protectedProcedure, publicProcedure } from "../trpc";
 import { TRPCError } from "@trpc/server";
 
 export const jobRequestRouter = createTRPCRouter({
@@ -31,6 +31,35 @@ export const jobRequestRouter = createTRPCRouter({
       }
       return false;
     }),
+  getJobRequestByRecruter: protectedProcedure.query(async ({ ctx }) => {
+    const recruter = await ctx.prisma.recruter.findFirst({
+      where: {
+        userId: ctx.session.user.id,
+      },
+      select: {
+        id: true,
+      },
+    });
+    if (!recruter) {
+      throw new Error("Candidate not found");
+    }
+    const jobRequests = await ctx.prisma.jobRequest.findMany({
+      where: {
+        job: {
+          recruterId: recruter.id,
+        },
+      },
+      include: {
+        candidate: {
+          include: {
+            user: true,
+          },
+        },
+        job: true,
+      },
+    });
+    return { jobRequests };
+  }),
   getRequestByCandidate: protectedProcedure.query(async ({ ctx }) => {
     const candidate = await ctx.prisma.candidate.findFirst({
       where: {
@@ -89,6 +118,25 @@ export const jobRequestRouter = createTRPCRouter({
       if (!jobRequest) {
         throw new TRPCError({ code: "BAD_REQUEST" });
       }
+      return { jobRequest };
+    }),
+  editJobRequest: publicProcedure
+    .input(
+      z.object({
+        id: z.string({ required_error: "job request id is required" }),
+        status: z.enum(["pending", "accepted", "declined"]),
+      })
+    )
+    .mutation(async ({ ctx, input }) => {
+      const { id, status } = input;
+      const jobRequest = await ctx.prisma.jobRequest.update({
+        where: {
+          id: id,
+        },
+        data: {
+          status: status,
+        },
+      });
       return { jobRequest };
     }),
   deletJobRequest: protectedProcedure
