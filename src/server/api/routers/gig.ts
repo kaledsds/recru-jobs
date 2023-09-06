@@ -3,18 +3,68 @@ import { createTRPCRouter, protectedProcedure, publicProcedure } from "../trpc";
 import { z } from "zod";
 
 export const gigRouter = createTRPCRouter({
-  getgigs: publicProcedure.query(async ({ ctx }) => {
-    const gigs = await ctx.prisma.gig.findMany({
-      include: {
-        candidate: {
-          include: {
-            user: true,
+  getGigs: publicProcedure
+    .input(
+      z.object({
+        searchValue: z.string(),
+        serviceType: z.string(),
+        category: z.string(),
+        limit: z.number(),
+        cursor: z.string().nullish(),
+      })
+    )
+    .query(async ({ ctx, input }) => {
+      const { searchValue, serviceType, category, limit, cursor } = input;
+
+      const jobs = await ctx.prisma.gig.findMany({
+        take: limit + 1,
+        cursor: cursor ? { id: cursor } : undefined,
+        include: {
+          candidate: {
+            include: {
+              user: true,
+            },
           },
         },
-      },
-    });
-    return gigs;
-  }),
+        where: {
+          AND: [
+            {
+              title: {
+                contains: searchValue,
+              },
+            },
+            {
+              serviceType: {
+                contains: serviceType,
+              },
+            },
+            {
+              category: {
+                contains: category,
+              },
+            },
+          ],
+        },
+      });
+      let nextCursor: typeof cursor | undefined = undefined;
+      if (jobs.length > limit) {
+        const nextJob = jobs.pop(); // return the last item from the array
+        nextCursor = nextJob?.id;
+      }
+      return { jobs, nextCursor };
+    }),
+  // getgigs: publicProcedure.query(async ({ ctx }) => {
+  //   const gigs = await ctx.prisma.gig.findMany({
+  //     include: {
+  //       candidate: {
+  //         include: {
+  //           user: true,
+  //         },
+  //       },
+  //     },
+  //   });
+  //   return gigs;
+  // }),
   createGig: protectedProcedure
     .input(gigInputSchema)
     .mutation(async ({ input, ctx }) => {

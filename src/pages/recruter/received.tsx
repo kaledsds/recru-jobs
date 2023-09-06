@@ -1,14 +1,21 @@
 import { Mailbox } from "lucide-react";
 import Head from "next/head";
-import React from "react";
+import React, { useState } from "react";
 import { ReceivedRequestRow } from "~/components/recruter/Request";
 import { PageHeader } from "~/components/ui";
 import RecruterLayout from "~/layouts/recruter-layout";
 import { api } from "~/utils/api";
 
 const Received = () => {
-  const { data: JobRequests } =
-    api.jobRequest.getJobRequestByRecruter.useQuery();
+  const [statusValue, setStatusValue] = useState<string>("Request Status");
+  const [jobValue, setjobValue] = useState<string>("Requesting on");
+  const { data: jobs } = api.job.getJobByRecruter.useQuery();
+  const { data: JobRequests } = api.jobRequest.getJobRequestByRecruter.useQuery(
+    {
+      statusValue: statusValue,
+      jobValue: jobValue,
+    }
+  );
   return (
     <>
       <Head>
@@ -24,8 +31,32 @@ const Received = () => {
             <thead>
               <tr>
                 <th>Candidate Name</th>
-                <th>Requesting on</th>
-                <th>request status</th>
+                <th>
+                  <select
+                    onChange={(e) => setjobValue(e.target.value)}
+                    value={jobValue}
+                    id="statusValue"
+                    className="cursor-pointer bg-base-200"
+                  >
+                    <option>Requesting on</option>
+                    {jobs?.map((job) => (
+                      <option key={job.id}>{job.title}</option>
+                    ))}
+                  </select>
+                </th>
+                <th>
+                  <select
+                    onChange={(e) => setStatusValue(e.target.value)}
+                    value={statusValue}
+                    id="statusValue"
+                    className="cursor-pointer bg-base-200"
+                  >
+                    <option>Request Status</option>
+                    <option>pending</option>
+                    <option>accepted</option>
+                    <option>declined</option>
+                  </select>
+                </th>
                 <th>
                   <span className="px-4">action</span>
                 </th>
@@ -39,12 +70,10 @@ const Received = () => {
             {/* foot */}
             <tfoot>
               <tr>
-                <th>nav</th>
                 <th></th>
                 <th></th>
-                <th>
-                  <span className="px-4">page</span>
-                </th>
+                <th></th>
+                <th></th>
               </tr>
             </tfoot>
           </table>

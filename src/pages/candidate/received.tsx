@@ -1,15 +1,27 @@
 import { Mailbox } from "lucide-react";
 import Head from "next/head";
-import React from "react";
+import React, { useState } from "react";
 import { ReceivedRequestRow } from "~/components/candidate/Request";
-import { PageHeader } from "~/components/ui";
+import { PageHeader, Spinner } from "~/components/ui";
 import CandidateLayout from "~/layouts/candidate-layout";
 import { api } from "~/utils/api";
 
 const Received = () => {
+  const [statusValue, setStatusValue] = useState<string>("Request Status");
+
+  const [gigValue, setGigalue] = useState<string>("Gig Title");
+
+  const { data: gigs } = api.gig.getGigByCondidate.useQuery();
+
   const { data: GigRequests } =
-    api.gigRequest.getGigRequestByCandidate.useQuery();
-  if (!GigRequests) return null;
+    api.gigRequest.getGigRequestByCandidate.useQuery({
+      statusValue: statusValue,
+      gigValue: gigValue,
+    });
+
+  if (GigRequests && !gigs) {
+    return <Spinner />;
+  }
 
   return (
     <>
@@ -27,9 +39,33 @@ const Received = () => {
               <thead>
                 <tr>
                   <th>Recruter Name</th>
-                  <th>Gig Title</th>
+                  <th>
+                    <select
+                      onChange={(e) => setGigalue(e.target.value)}
+                      value={gigValue}
+                      id="gigValue"
+                      className="cursor-pointer bg-base-200"
+                    >
+                      <option>Gig Title</option>
+                      {gigs?.map((gig) => (
+                        <option key={gig.id}>{gig.title}</option>
+                      ))}
+                    </select>
+                  </th>
                   <th>Job Assigned</th>
-                  <th>request status</th>
+                  <th>
+                    <select
+                      onChange={(e) => setStatusValue(e.target.value)}
+                      value={statusValue}
+                      id="statusValue"
+                      className="cursor-pointer bg-base-200"
+                    >
+                      <option>Request Status</option>
+                      <option>pending</option>
+                      <option>accepted</option>
+                      <option>declined</option>
+                    </select>
+                  </th>
                   <th>
                     <span className="flex items-center justify-center">
                       action
@@ -38,20 +74,18 @@ const Received = () => {
                 </tr>
               </thead>
               <tbody>
-                {GigRequests.gigRequests.map((request) => (
+                {GigRequests?.gigRequests.map((request) => (
                   <ReceivedRequestRow key={request.id} request={request} />
                 ))}
               </tbody>
               {/* foot */}
               <tfoot>
                 <tr>
-                  <th>nav</th>
                   <th></th>
                   <th></th>
                   <th></th>
-                  <th>
-                    <span className="flex justify-end px-4">page</span>
-                  </th>
+                  <th></th>
+                  <th></th>
                 </tr>
               </tfoot>
             </table>

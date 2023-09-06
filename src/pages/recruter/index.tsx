@@ -1,5 +1,7 @@
 import { LayoutDashboard } from "lucide-react";
 import Head from "next/head";
+import { useEffect, useState } from "react";
+import { useInView } from "react-intersection-observer";
 import { GigCard } from "~/components/recruter/dashboard";
 import { Footer, PageHeader } from "~/components/ui";
 import RecruterLayout from "~/layouts/recruter-layout";
@@ -9,8 +11,41 @@ import { api } from "~/utils/api";
  * The Recruter page.
  */
 export default function Recruter() {
-  const gigs = api.gig.getgigs.useQuery();
+  // const gigs = api.gig.getgigs.useQuery();
   const { data: recruterJobs } = api.job.getJobByRecruterId.useQuery();
+  // if (!recruterJobs) {
+  //   return null;
+  // }
+  const [searchValue, setSearchValue] = useState<string>("");
+  // job type state
+  const [serviceType, setServiceType] = useState<string>("");
+  // experience state
+  const [category, setCategory] = useState<string>("");
+
+  // gigs query
+  const {
+    data: gigs,
+    fetchNextPage,
+    hasNextPage,
+    isFetching,
+  } = api.gig.getGigs.useInfiniteQuery(
+    {
+      limit: 3,
+      searchValue,
+      serviceType,
+      category,
+    },
+    { getNextPageParam: (lastPage) => lastPage.nextCursor }
+  );
+
+  const { ref, inView } = useInView({ threshold: 0 });
+
+  useEffect(() => {
+    if (inView && !isFetching && hasNextPage) {
+      void fetchNextPage();
+    }
+  }, [inView, isFetching, hasNextPage, fetchNextPage]);
+
   if (!recruterJobs) {
     return null;
   }
@@ -27,6 +62,8 @@ export default function Recruter() {
           <PageHeader title="Dashboard" Icon={LayoutDashboard}>
             <div className="input-group w-full ">
               <input
+                onChange={(e) => setSearchValue(e.target.value)}
+                value={searchValue}
                 type="text"
                 placeholder="Search…"
                 className="input-bordered input w-full border-r-0 border-neutral-content focus:outline-none"
@@ -57,9 +94,12 @@ export default function Recruter() {
                 customizing your search based on keywords, location, industry,
                 and more.
               </p>
-              {gigs.data?.map((gig) => (
-                <GigCard recruterJobs={recruterJobs} gig={gig} key={gig.id} />
-              ))}
+              {gigs?.pages
+                .flatMap((page) => page.jobs)
+                .map((gig) => (
+                  <GigCard recruterJobs={recruterJobs} gig={gig} key={gig.id} />
+                ))}
+              <div ref={ref}></div>
             </div>
             <div className="container w-[30%]">
               <div className="h-full space-y-4 p-4  pt-0">
@@ -68,34 +108,30 @@ export default function Recruter() {
                     <h1 className="text-xl font-bold">Filtter :</h1>
                     <div className="container">
                       <div className="container flex flex-col gap-1.5 p-0">
-                        <label className="pl-1" htmlFor="jobType">
-                          Job Type :
+                        <label className="pl-1" htmlFor="serviceType">
+                          Service Type :
                         </label>
-                        <select
-                          id="jobType"
-                          className="select-primary select w-full"
-                        >
-                          <option>Full Time</option>
-                          <option>Half Time</option>
-                          <option>Freelance</option>
-                          <option>Temporary</option>
-                        </select>
+                        <input
+                          onChange={(e) => setServiceType(e.target.value)}
+                          value={serviceType}
+                          type="text"
+                          id="serviceType"
+                          placeholder="Search…"
+                          className="input-primary input w-full"
+                        />
                       </div>
                       <div className="container flex flex-col gap-1.5 p-0">
-                        <label className="pl-1" htmlFor="yearsOfExperience">
-                          Years Of Experience :
+                        <label className="pl-1" htmlFor="category">
+                          Category :
                         </label>
-                        <select
-                          id="yearsOfExperience"
-                          className="select-primary select w-full"
-                        >
-                          <option>Less then one year</option>
-                          <option>1 year</option>
-                          <option>2 years</option>
-                          <option>3 years</option>
-                          <option>4 years</option>
-                          <option>5 years plus</option>
-                        </select>
+                        <input
+                          onChange={(e) => setCategory(e.target.value)}
+                          value={category}
+                          type="text"
+                          id="category"
+                          placeholder="Search…"
+                          className="input-primary input w-full"
+                        />
                       </div>
                       <div className="divider"></div>
                       <div className="container flex justify-center p-0 pb-2">

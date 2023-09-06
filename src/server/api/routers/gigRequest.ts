@@ -36,69 +36,95 @@ export const gigRequestRouter = createTRPCRouter({
   //     }
   //     return false;
   //   }),
-  getGigRequestByCandidate: protectedProcedure.query(async ({ ctx }) => {
-    const candidate = await ctx.prisma.candidate.findFirst({
-      where: {
-        userId: ctx.session.user.id,
-      },
-      select: {
-        id: true,
-      },
-    });
-    if (!candidate) {
-      throw new Error("Candidate not found");
-    }
-    const gigRequests = await ctx.prisma.gigRequest.findMany({
-      where: {
-        gig: {
-          candidateId: candidate.id,
+  getGigRequestByCandidate: protectedProcedure
+    .input(
+      z.object({
+        statusValue: z.string(),
+        gigValue: z.string(),
+      })
+    )
+    .query(async ({ ctx, input }) => {
+      const { statusValue, gigValue } = input;
+      const candidate = await ctx.prisma.candidate.findFirst({
+        where: {
+          userId: ctx.session.user.id,
         },
-      },
-      include: {
-        gig: true,
-        job: true,
-        recruter: {
-          include: {
-            user: true,
-          },
+        select: {
+          id: true,
         },
-      },
-    });
-    return { gigRequests };
-  }),
-  getRequestByRecruter: protectedProcedure.query(async ({ ctx }) => {
-    const recruter = await ctx.prisma.recruter.findFirst({
-      where: {
-        userId: ctx.session.user.id,
-      },
-      select: {
-        id: true,
-      },
-    });
-    if (!recruter) {
-      throw new Error("Candidate not found");
-    }
-    const gigRequests = await ctx.prisma.gigRequest.findMany({
-      where: {
-        job: {
-          recruterId: recruter.id,
-        },
-      },
-      include: {
-        gig: {
-          include: {
-            candidate: {
-              include: {
-                user: true,
+      });
+      if (!candidate) {
+        throw new Error("Candidate not found");
+      }
+      const gigRequests = await ctx.prisma.gigRequest.findMany({
+        where: {
+          AND: [
+            {
+              gig: {
+                candidateId: candidate.id,
               },
+            },
+            statusValue === "Request Status" ? {} : { status: statusValue },
+            gigValue === "Gig Title" ? {} : { gig: { title: gigValue } },
+          ],
+        },
+        include: {
+          gig: true,
+          job: true,
+          recruter: {
+            include: {
+              user: true,
             },
           },
         },
-        job: true,
-      },
-    });
-    return { gigRequests };
-  }),
+      });
+      return { gigRequests };
+    }),
+  getRequestByRecruter: protectedProcedure
+    .input(
+      z.object({
+        statusValue: z.string(),
+        jobValue: z.string(),
+      })
+    )
+    .query(async ({ ctx, input }) => {
+      const { statusValue, jobValue } = input;
+      const recruter = await ctx.prisma.recruter.findFirst({
+        where: {
+          userId: ctx.session.user.id,
+        },
+        select: {
+          id: true,
+        },
+      });
+      if (!recruter) {
+        throw new Error("Candidate not found");
+      }
+      const gigRequests = await ctx.prisma.gigRequest.findMany({
+        where: {
+          AND: [
+            {
+              recruterId: recruter.id,
+            },
+            statusValue === "Request Status" ? {} : { status: statusValue },
+            jobValue === "Job Assigned" ? {} : { job: { title: jobValue } },
+          ],
+        },
+        include: {
+          gig: {
+            include: {
+              candidate: {
+                include: {
+                  user: true,
+                },
+              },
+            },
+          },
+          job: true,
+        },
+      });
+      return { gigRequests };
+    }),
   createGigRequest: protectedProcedure
     .input(
       z.object({

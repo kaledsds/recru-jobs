@@ -31,65 +31,87 @@ export const jobRequestRouter = createTRPCRouter({
       }
       return false;
     }),
-  getJobRequestByRecruter: protectedProcedure.query(async ({ ctx }) => {
-    const recruter = await ctx.prisma.recruter.findFirst({
-      where: {
-        userId: ctx.session.user.id,
-      },
-      select: {
-        id: true,
-      },
-    });
-    if (!recruter) {
-      throw new Error("Candidate not found");
-    }
-    const jobRequests = await ctx.prisma.jobRequest.findMany({
-      where: {
-        job: {
-          recruterId: recruter.id,
+  getJobRequestByRecruter: protectedProcedure
+    .input(
+      z.object({
+        statusValue: z.string(),
+        jobValue: z.string(),
+      })
+    )
+    .query(async ({ ctx, input }) => {
+      const { statusValue, jobValue } = input;
+      const recruter = await ctx.prisma.recruter.findFirst({
+        where: {
+          userId: ctx.session.user.id,
         },
-      },
-      include: {
-        candidate: {
-          include: {
-            user: true,
+        select: {
+          id: true,
+        },
+      });
+      if (!recruter) {
+        throw new Error("Candidate not found");
+      }
+      const jobRequests = await ctx.prisma.jobRequest.findMany({
+        where: {
+          AND: [
+            { job: { recruterId: recruter.id } },
+            statusValue === "Request Status" ? {} : { status: statusValue },
+            jobValue === "Requesting on" ? {} : { job: { title: jobValue } },
+          ],
+        },
+        include: {
+          candidate: {
+            include: {
+              user: true,
+            },
           },
+          job: true,
         },
-        job: true,
-      },
-    });
-    return { jobRequests };
-  }),
-  getRequestByCandidate: protectedProcedure.query(async ({ ctx }) => {
-    const candidate = await ctx.prisma.candidate.findFirst({
-      where: {
-        userId: ctx.session.user.id,
-      },
-      select: {
-        id: true,
-      },
-    });
-    if (!candidate) {
-      throw new Error("Candidate not found");
-    }
-    const jobRequests = await ctx.prisma.jobRequest.findMany({
-      where: {
-        candidateId: candidate.id,
-      },
-      include: {
-        job: {
-          include: {
-            recruter: {
-              include: {
-                user: true,
+      });
+      return { jobRequests };
+    }),
+  getRequestByCandidate: protectedProcedure
+    .input(
+      z.object({
+        statusValue: z.string(),
+        jobValue: z.string(),
+      })
+    )
+    .query(async ({ ctx, input }) => {
+      const { statusValue, jobValue } = input;
+      const candidate = await ctx.prisma.candidate.findFirst({
+        where: {
+          userId: ctx.session.user.id,
+        },
+        select: {
+          id: true,
+        },
+      });
+      if (!candidate) {
+        throw new Error("Candidate not found");
+      }
+      const jobRequests = await ctx.prisma.jobRequest.findMany({
+        where: {
+          AND: [
+            { candidateId: candidate.id },
+            statusValue === "Request Status" ? {} : { status: statusValue },
+            jobValue === "Your Request on" ? {} : { job: { title: jobValue } },
+          ],
+        },
+        include: {
+          job: {
+            include: {
+              recruter: {
+                include: {
+                  user: true,
+                },
               },
             },
           },
         },
-      },
-    });
-    return { jobRequests };
-  }),
+      });
+      return { jobRequests };
+    }),
   createJobRequest: protectedProcedure
     .input(
       z.object({

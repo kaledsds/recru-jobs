@@ -4,14 +4,90 @@ import { z } from "zod";
 import { editJobPostSchema } from "~/validation/job/editJobPost";
 
 export const jobRouter = createTRPCRouter({
-  getjobs: publicProcedure.query(async ({ ctx }) => {
-    const jobs = await ctx.prisma.job.findMany({
-      include: {
-        recruter: true,
+  getjobs: publicProcedure
+    .input(
+      z.object({
+        searchValue: z.string(),
+        jobType: z.string(),
+        experience: z.string(),
+        limit: z.number(),
+        cursor: z.string().nullish(),
+      })
+    )
+    .query(async ({ ctx, input }) => {
+      const { searchValue, jobType, experience, limit, cursor } = input;
+
+      const jobs = await ctx.prisma.job.findMany({
+        take: limit + 1,
+        cursor: cursor ? { id: cursor } : undefined,
+        include: {
+          recruter: true,
+        },
+        where: {
+          AND: [
+            {
+              title: {
+                contains: searchValue,
+              },
+            },
+            jobType === "All" ? {} : { type: jobType },
+            experience === "All" ? {} : { yearsOfExperience: experience },
+          ],
+        },
+      });
+      let nextCursor: typeof cursor | undefined = undefined;
+      if (jobs.length > limit) {
+        const nextJob = jobs.pop(); // return the last item from the array
+        nextCursor = nextJob?.id;
+      }
+      return { jobs, nextCursor };
+    }),
+  getJobsByCandidateRequest: protectedProcedure.query(async ({ ctx }) => {
+    const candidate = await ctx.prisma.candidate.findFirst({
+      where: {
+        userId: ctx.session.user.id,
+      },
+      select: {
+        id: true,
       },
     });
-    return jobs;
+    if (!candidate) {
+      throw new Error("Candidate not found");
+    }
+    const jobs = await ctx.prisma.job.findMany({
+      where: {
+        jobRequest: {
+          some: {
+            candidateId: candidate.id,
+          },
+        },
+      },
+    });
+    return { jobs };
   }),
+  getjobsFordetails: publicProcedure
+    .input(
+      z.object({
+        limit: z.number(),
+        cursor: z.string().nullish(),
+      })
+    )
+    .query(async ({ ctx, input }) => {
+      const { limit, cursor } = input;
+      const jobs = await ctx.prisma.job.findMany({
+        take: limit + 1,
+        cursor: cursor ? { id: cursor } : undefined,
+        include: {
+          recruter: true,
+        },
+      });
+      let nextCursor: typeof cursor | undefined = undefined;
+      if (jobs.length > limit) {
+        const nextJob = jobs.pop(); // return the last item from the array
+        nextCursor = nextJob?.id;
+      }
+      return { jobs, nextCursor };
+    }),
   /**
    * Create job post
    * @access protected

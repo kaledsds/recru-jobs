@@ -1,15 +1,46 @@
 import { LayoutDashboard } from "lucide-react";
 import Head from "next/head";
+import { useEffect, useState } from "react";
 import { JobCard } from "~/components/candidate/dashboard";
 import { Footer, PageHeader } from "~/components/ui";
 import CandidateLayout from "~/layouts/candidate-layout";
+import { useInView } from "react-intersection-observer";
 import { api } from "~/utils/api";
 
 /**
  * The Candidate page.
  */
 export default function Candidate() {
-  const jobs = api.job.getjobs.useQuery();
+  // search state
+  const [searchValue, setSearchValue] = useState<string>("");
+  // job type state
+  const [jobType, setJobType] = useState<string>("All");
+  // experience state
+  const [experience, setExperience] = useState<string>("All");
+
+  // jobs query
+  const {
+    data: jobs,
+    fetchNextPage,
+    hasNextPage,
+    isFetching,
+  } = api.job.getjobs.useInfiniteQuery(
+    {
+      limit: 3,
+      searchValue,
+      jobType,
+      experience,
+    },
+    { getNextPageParam: (lastPage) => lastPage.nextCursor }
+  );
+
+  const { ref, inView } = useInView({ threshold: 0 });
+
+  useEffect(() => {
+    if (inView && !isFetching && hasNextPage) {
+      void fetchNextPage();
+    }
+  }, [inView, isFetching, hasNextPage, fetchNextPage]);
 
   return (
     <>
@@ -23,6 +54,8 @@ export default function Candidate() {
           <PageHeader title="Dashboard" Icon={LayoutDashboard}>
             <div className="input-group w-full ">
               <input
+                onChange={(e) => setSearchValue(e.target.value)}
+                value={searchValue}
                 type="text"
                 placeholder="Search…"
                 className="input-bordered input w-full border-r-0 border-neutral-content focus:outline-none"
@@ -53,9 +86,12 @@ export default function Candidate() {
                 customizing your search based on keywords, location, industry,
                 and more.
               </p>
-              {jobs.data?.map((job) => (
-                <JobCard job={job} key={job.id} />
-              ))}
+              {jobs?.pages
+                .flatMap((page) => page.jobs)
+                .map((job) => (
+                  <JobCard job={job} key={job.id} />
+                ))}
+              <div ref={ref}></div>
             </div>
             <div className="container w-[30%]">
               <div className="h-full space-y-4 p-4  pt-0">
@@ -68,9 +104,12 @@ export default function Candidate() {
                           Job Type :
                         </label>
                         <select
+                          value={jobType}
+                          onChange={(e) => setJobType(e.target.value)}
                           id="gigType"
                           className="select-primary select w-full"
                         >
+                          <option>All</option>
                           <option>Full Time</option>
                           <option>Half Time</option>
                           <option>Freelance</option>
@@ -82,9 +121,12 @@ export default function Candidate() {
                           Years Of Experience :
                         </label>
                         <select
+                          value={experience}
+                          onChange={(e) => setExperience(e.target.value)}
                           id="category"
                           className="select-primary select w-full"
                         >
+                          <option>All</option>
                           <option>Less then one year</option>
                           <option>1 year</option>
                           <option>2 years</option>

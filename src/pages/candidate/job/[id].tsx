@@ -1,7 +1,8 @@
 import { Briefcase } from "lucide-react";
 import Head from "next/head";
 import { useRouter } from "next/router";
-import React from "react";
+import React, { useEffect } from "react";
+import { useInView } from "react-intersection-observer";
 import {
   JobCard,
   JobCardTwo,
@@ -17,7 +18,25 @@ const JobPost = () => {
     id: query.id as string,
   });
 
-  const jobList = api.job.getjobs.useQuery();
+  const {
+    data: jobList,
+    fetchNextPage,
+    hasNextPage,
+    isFetching,
+  } = api.job.getjobsFordetails.useInfiniteQuery(
+    {
+      limit: 2,
+    },
+    { getNextPageParam: (lastPage) => lastPage.nextCursor }
+  );
+
+  const { ref, inView } = useInView({ threshold: 0 });
+
+  useEffect(() => {
+    if (inView && !isFetching && hasNextPage) {
+      void fetchNextPage();
+    }
+  }, [inView, isFetching, hasNextPage, fetchNextPage]);
 
   if (!job || !jobList) {
     return <Spinner />;
@@ -40,10 +59,16 @@ const JobPost = () => {
                 apply for the ones that resonate with your skills and ambitions.
               </p>
               <JobCardTwo job={job} key={job.id} />
-              {jobList.data?.map(
+              {/* {jobList.data?.map(
                 (job) =>
                   job.id !== query.id && <JobCard job={job} key={job.id} />
-              )}
+              )} */}
+              {jobList.pages
+                .flatMap((page) => page.jobs)
+                .map((job) => (
+                  <JobCard job={job} key={job.id} />
+                ))}
+              <div ref={ref}></div>
             </div>
             <div className="container w-[40%]">
               <JobDetails job={job} />
