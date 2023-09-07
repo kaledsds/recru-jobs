@@ -5,7 +5,7 @@ import ThemeToggler from "~/components/ui/theme-toggler";
 
 // NavbarProps is the type of the props object that must be passed to Navbar component.
 interface NavbarProps {
-  type: "candidate" | "recruter";
+  type: "candidate" | "recruter" | "admin";
 }
 
 /**
@@ -50,25 +50,33 @@ const Navbar: React.FC<NavbarProps> = ({ type }) => {
               tabIndex={0}
               className="dropdown-content menu rounded-box menu-compact mt-3 w-52 bg-base-200 p-2 shadow-md"
             >
-              <li>
-                <Link href={`/${type}/profile`} className="justify-between">
-                  Profile
-                </Link>
-              </li>
-              <li>
-                {type === "recruter" ? (
-                  <Link href="/candidate" className="justify-between">
-                    Switch to candidate
-                  </Link>
-                ) : (
-                  <Link href="/recruter" className="justify-between">
-                    Switch to recruter
-                  </Link>
-                )}
-              </li>
-              <li>
-                <a onClick={() => void signOut()}>Sign Out</a>
-              </li>
+              {type === "admin" ? (
+                <li>
+                  <a onClick={() => void signOut()}>Sign Out</a>
+                </li>
+              ) : (
+                <>
+                  <li>
+                    <Link href={`/${type}/profile`} className="justify-between">
+                      Profile
+                    </Link>
+                  </li>
+                  <li>
+                    {type === "recruter" ? (
+                      <Link href="/candidate" className="justify-between">
+                        Switch to candidate
+                      </Link>
+                    ) : (
+                      <Link href="/recruter" className="justify-between">
+                        Switch to recruter
+                      </Link>
+                    )}
+                  </li>
+                  <li>
+                    <a onClick={() => void signOut()}>Sign Out</a>
+                  </li>
+                </>
+              )}
             </ul>
           </div>
         </div>

@@ -1,6 +1,8 @@
 import { Home } from "lucide-react";
+import { useSession } from "next-auth/react";
 import Head from "next/head";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import ThemeApplyer from "~/components/ui/theme-applyer";
 import MainLayout from "~/layouts/main-layout";
 
@@ -8,6 +10,14 @@ import MainLayout from "~/layouts/main-layout";
  * The Welcome page.
  */
 export default function Welcome() {
+  const { data: session } = useSession();
+  const { status: sessionStatus } = useSession();
+  const router = useRouter();
+
+  if (session?.user.role === "ADMIN" && sessionStatus === "authenticated") {
+    return router.push("/admin");
+  }
+
   return (
     <>
       <Head>
