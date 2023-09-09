@@ -10,7 +10,7 @@ datasource db {
 model Recruter {
     id             String  @id @default(cuid())
     userId         String  @unique
-    user           User    @relation(fields: [userId], references: [id])
+    user           User    @relation(fields: [userId], references: [id], onDelete: Cascade)
     isOrganization Boolean
     orgName        String?
     orgId          String?
@@ -37,7 +37,7 @@ model Recruter {
 model candidate {
     id         String       @id @default(cuid())
     userId     String       @unique
-    user       User         @relation(fields: [userId], references: [id])
+    user       User         @relation(fields: [userId], references: [id], onDelete: Cascade)
     fullName   String
     cin        String
     expertise  String

@@ -66,7 +66,7 @@ export default function Recruter() {
                 value={searchValue}
                 type="text"
                 placeholder="Search…"
-                className="input-bordered input w-full border-r-0 border-neutral-content focus:outline-none"
+                className="input-bordered input w-full border-r-0 border-neutral-content bg-transparent focus:outline-none"
               />
               <button className="btn-square btn border-l-0 border-neutral-content bg-transparent hover:border-neutral-content hover:bg-transparent">
                 <svg
