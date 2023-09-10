@@ -1,5 +1,4 @@
 import { Trash2 } from "lucide-react";
-import { useRouter } from "next/router";
 import React from "react";
 import { api } from "~/utils/api";
 
@@ -8,10 +7,11 @@ interface DeleteUserProps {
 }
 
 const DeleteUser: React.FC<DeleteUserProps> = ({ id }) => {
-  const router = useRouter();
+  const ctx = api.useContext();
+
   const deleteUser = api.userAdmin.deleteUser.useMutation({
     onSuccess: async () => {
-      await router.push("/admin");
+      await ctx.userAdmin.invalidate();
     },
   });
 

@@ -60,15 +60,6 @@ const UserRow: React.FC<UserRowProps> = ({ user }) => {
         </td>
         <td>
           <DeleteUser id={user.id} />
-          {/* <div className="flex items-center justify-center text-red-600">
-            <button
-              onClick={() => {
-                deleteUser.mutate({ userId: user.id });
-              }}
-            >
-              <Trash2 />
-            </button>
-          </div> */}
         </td>
       </tr>
     </>
