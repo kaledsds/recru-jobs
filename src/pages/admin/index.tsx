@@ -48,34 +48,36 @@ const Admin = () => {
               </button>
             </div>
           </PageHeader>
-          <div className="w-full overflow-x-visible">
-            <table className="table w-full">
-              {/* head */}
-              <thead>
-                <tr>
-                  <th>User Name</th>
-                  <th>candidate profile</th>
-                  <th>recruter profile</th>
-                  <th>
-                    <span className="flex justify-center px-4">action</span>
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                {user?.map((user) => (
-                  <UserRow key={user.id} user={user} />
-                ))}
-              </tbody>
-              {/* foot */}
-              <tfoot>
-                <tr>
-                  <th></th>
-                  <th></th>
-                  <th></th>
-                  <th></th>
-                </tr>
-              </tfoot>
-            </table>
+          <div className="container">
+            <div className="w-full overflow-x-visible">
+              <table className="table w-full">
+                {/* head */}
+                <thead>
+                  <tr>
+                    <th>User Name</th>
+                    <th>candidate profile</th>
+                    <th>recruter profile</th>
+                    <th>
+                      <span className="flex justify-center px-4">action</span>
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {user?.map((user) => (
+                    <UserRow key={user.id} user={user} />
+                  ))}
+                </tbody>
+                {/* foot */}
+                <tfoot>
+                  <tr>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                  </tr>
+                </tfoot>
+              </table>
+            </div>
           </div>
         </div>
       </AdminLayout>

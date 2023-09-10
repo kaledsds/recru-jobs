@@ -38,9 +38,9 @@ export const adminConfig = {
           icon: <AlertOctagonIcon className="h-5 w-5" />,
         },
         {
-          id: "cantact",
-          name: "Cantact",
-          href: "/admin/cantact",
+          id: "contact",
+          name: "Contact",
+          href: "/admin/contact",
           icon: <Contact className="h-5 w-5" />,
         },
         {

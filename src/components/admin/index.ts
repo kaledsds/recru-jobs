@@ -8,6 +8,9 @@ import JobDetails from "./manage-jobs/job-details";
 import ManageGigCard from "./manage-gigs/manage-gig-card";
 import GigDetails from "./manage-gigs/gig-details";
 import DeleteGig from "./manage-gigs/delete-gig";
+import ContactRow from "./contact/contact-row";
+import ContactMessage from "./contact/contact-message";
+import ContactDelete from "./contact/contact-delete";
 
 export {
   UserRow,
@@ -20,4 +23,7 @@ export {
   ManageGigCard,
   GigDetails,
   DeleteGig,
+  ContactRow,
+  ContactMessage,
+  ContactDelete,
 };
