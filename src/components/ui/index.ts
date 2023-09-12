@@ -6,6 +6,7 @@ import ThemeApplyer from "./theme-applyer";
 import PageHeader from "./page-header";
 import DashboardTheme from "./dashboard-theme";
 import Footer from "./footer";
+import ReportModal from "./report-modal";
 
 export {
   Spinner,
@@ -16,4 +17,5 @@ export {
   PageHeader,
   DashboardTheme,
   Footer,
+  ReportModal,
 };

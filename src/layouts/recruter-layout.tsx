@@ -40,7 +40,7 @@ const RecruterLayout: React.FC<RecruterLayoutProps> = ({ children }) => {
     <>
       <MainLayout>
         <div className="flex h-screen flex-col">
-          <Navbar type="recruter" />
+          <Navbar type="recruiter" />
           <div className="flex h-full">
             <Sidebar config={recruterConfig} />
             <main className="mt-16 w-full overflow-y-auto p-4 md:p-6 2xl:p-10">

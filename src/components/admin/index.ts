@@ -11,6 +11,9 @@ import DeleteGig from "./manage-gigs/delete-gig";
 import ContactRow from "./contact/contact-row";
 import ContactMessage from "./contact/contact-message";
 import ContactDelete from "./contact/contact-delete";
+import ReportRow from "./report/report-row";
+import ReportReason from "./report/report-reason";
+import DeleteReport from "./report/delete-report";
 
 export {
   UserRow,
@@ -26,4 +29,7 @@ export {
   ContactRow,
   ContactMessage,
   ContactDelete,
+  ReportRow,
+  ReportReason,
+  DeleteReport,
 };

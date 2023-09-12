@@ -60,6 +60,10 @@ const ManageJobCard: React.FC<ManageJobCardProps> = ({ job }) => {
       </div>
       {/* Job actions */}
       <div className="flex justify-between">
+        {/* The button to open modal */}
+        <label htmlFor={`job-details${job.id}`} className="btn-sm btn">
+          details
+        </label>
         <JobDetails job={job} />
         <DeleteJob id={job.id} />
       </div>

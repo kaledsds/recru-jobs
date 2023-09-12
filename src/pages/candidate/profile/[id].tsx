@@ -2,7 +2,7 @@ import { ArrowUpRightFromCircle, Facebook } from "lucide-react";
 import { Github, Globe, Instagram, Twitter } from "lucide-react";
 import { Linkedin, UserCircle2 } from "lucide-react";
 import Head from "next/head";
-import { PageHeader } from "~/components/ui";
+import { PageHeader, Spinner } from "~/components/ui";
 import RecruterLayout from "~/layouts/recruter-layout";
 import { api } from "~/utils/api";
 
@@ -17,10 +17,15 @@ import { useRouter } from "next/router";
  */
 export default function Profile() {
   const { query } = useRouter();
+
   const { data: candidate } = api.candidate.getCandidateProfile.useQuery({
     id: query.id as string,
   });
-  const resume = candidate?.resume as string;
+  if (!candidate) {
+    return <Spinner />;
+  }
+
+  const resume = candidate.resume;
 
   return (
     <>
@@ -48,39 +53,39 @@ export default function Profile() {
                       {/* Full name */}
                       <h1 className="text-lg">
                         <span className="font-semibold">Full Name: </span>
-                        {candidate?.fullName}
+                        {candidate.fullName}
                       </h1>
                       {/* Full name */}
                       <h1 className="text-lg">
                         <span className="font-semibold">
                           Field of expertise:{" "}
                         </span>
-                        {candidate?.expertise}
+                        {candidate.expertise}
                       </h1>
                       {/* Phone */}
                       <h1 className="text-lg">
                         <span className="font-semibold">Phone: </span>
-                        {candidate?.phone}
+                        {candidate.phone}
                       </h1>
                       {/* E-mail */}
                       <h1 className="text-lg">
                         <span className="font-semibold">E-mail: </span>
-                        {candidate?.email}
+                        {candidate.email}
                       </h1>
                       {/* City */}
                       <h1 className="text-lg">
                         <span className="font-semibold">City: </span>
-                        {candidate?.city}
+                        {candidate.city}
                       </h1>
                       {/* Address */}
                       <h1 className="text-lg">
                         <span className="font-semibold">Address: </span>
-                        {candidate?.address}
+                        {candidate.address}
                       </h1>
                       {/* Postal Code */}
                       <h1 className="text-lg">
                         <span className="font-semibold">Postal Code: </span>
-                        {candidate?.postalCode}
+                        {candidate.postalCode}
                       </h1>
                     </div>
                   </section>

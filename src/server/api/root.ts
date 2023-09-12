@@ -11,6 +11,7 @@ import { candidateAdminRouter } from "./routers/admin/candidate";
 import { jobAdminRouter } from "./routers/admin/job";
 import { gigAdminRouter } from "./routers/admin/gig";
 import { contactRouter } from "./routers/admin/contact";
+import { reportRouter } from "./routers/admin/report";
 
 /**
  * This is the primary router for your server.
@@ -30,6 +31,7 @@ export const appRouter = createTRPCRouter({
   jobAdmin: jobAdminRouter,
   gigAdmin: gigAdminRouter,
   contact: contactRouter,
+  report: reportRouter,
 });
 
 // export type definition of API

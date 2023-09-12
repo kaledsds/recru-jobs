@@ -5,6 +5,7 @@ import Image from "next/image";
 import React from "react";
 import GigRecrute from "./gig-recrute";
 import Link from "next/link";
+import { ReportModal } from "~/components/ui";
 
 interface GigCardProps {
   recruterJobs: Job[];
@@ -48,21 +49,28 @@ const GigCard: React.FC<GigCardProps> = ({ gig, recruterJobs }) => {
             <p className="mr-1 flex items-center justify-end text-slate-500">
               {gig.createdAt.toLocaleString()}
             </p>
-            <div className="dropdown-end dropdown">
-              <label tabIndex={0} className="btn-ghost btn-circle avatar btn">
-                <div className="rounded-full ">
-                  <MoreVertical />
-                </div>
-              </label>
-              <ul
-                tabIndex={0}
-                className="dropdown-content menu rounded-box menu-compact mt-3 w-52 bg-base-100 p-2 shadow"
-              >
-                <li>
-                  <a>Report User</a>
-                </li>
-              </ul>
-            </div>
+            {gig.candidate.user.id !== session.user.id && gig.id && (
+              <div className="dropdown-end dropdown">
+                <label tabIndex={0} className="btn-ghost btn-circle avatar btn">
+                  <div className="rounded-full ">
+                    <MoreVertical />
+                  </div>
+                </label>
+                <ul
+                  tabIndex={0}
+                  className="dropdown-content menu rounded-box menu-compact mt-3 w-52 bg-base-100 p-2 shadow"
+                >
+                  <li>
+                    <label htmlFor={`report${gig.id}`}>report this gig</label>
+                  </li>
+                  <li>
+                    <label htmlFor={`report${gig.candidate.id}`}>
+                      report this candidate
+                    </label>
+                  </li>
+                </ul>
+              </div>
+            )}
           </div>
           <h2 className="card-title font-bold text-primary">{gig.title}</h2>
           <p>
@@ -81,12 +89,8 @@ const GigCard: React.FC<GigCardProps> = ({ gig, recruterJobs }) => {
             {gig.candidate.user.id !== session.user.id && gig.id && (
               <GigRecrute gigId={gig.id} recruterJobs={recruterJobs} />
             )}
-            {/* <Link
-              href={`/candidate/job/${gig.id}`}
-              className="btn-primary btn-sm btn"
-            >
-              Details
-            </Link> */}
+            <ReportModal reported="gig post" id={gig.id} />
+            <ReportModal reported="candidate" id={gig.candidate.id} />
           </div>
         </div>
       </div>

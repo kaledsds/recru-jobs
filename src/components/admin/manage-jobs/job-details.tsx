@@ -9,11 +9,6 @@ interface JobDetailsProps {
 const JobDetails: React.FC<JobDetailsProps> = ({ job }) => {
   return (
     <>
-      {/* The button to open modal */}
-      <label htmlFor={`job-details${job.id}`} className="btn-sm btn">
-        details
-      </label>
-
       {/* Put this part before </body> tag */}
       <input
         type="checkbox"

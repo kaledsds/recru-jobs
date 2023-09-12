@@ -3,7 +3,7 @@ import { MoreVertical } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
-import { Spinner } from "~/components/ui";
+import { ReportModal, Spinner } from "~/components/ui";
 import { api } from "~/utils/api";
 
 interface JobCardProps {
@@ -53,7 +53,12 @@ const JobCard: React.FC<JobCardProps> = ({ job }) => {
                 className="dropdown-content menu rounded-box menu-compact mt-3 w-52 bg-base-100 p-2 shadow"
               >
                 <li>
-                  <a>Report User</a>
+                  <label htmlFor={`report${job.id}`}>report this job</label>
+                </li>
+                <li>
+                  <label htmlFor={`report${recruter.id}`}>
+                    report this recruiter
+                  </label>
                 </li>
               </ul>
             </div>
@@ -78,6 +83,8 @@ const JobCard: React.FC<JobCardProps> = ({ job }) => {
               Details
             </Link>
           </div>
+          <ReportModal reported="job post" id={job.id} />
+          <ReportModal reported="recruiter" id={recruter.id} />
         </div>
       </div>
     </>

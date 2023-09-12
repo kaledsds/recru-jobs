@@ -46,6 +46,10 @@ const ManageGigCard: React.FC<ManageGigCardProps> = ({ gig }) => {
       </div>
       {/* Job actions */}
       <div className="flex justify-between">
+        {/* The button to open modal */}
+        <label htmlFor={`job-details${gig.id}`} className="btn-sm btn">
+          details
+        </label>
         <GigDetails gig={gig} />
         <DeleteGig id={gig.id} />
       </div>

@@ -60,7 +60,7 @@ export const candidateRouter = createTRPCRouter({
       // Get candidate
       const candidate = await ctx.prisma.candidate.findFirst({
         where: {
-          userId: input.id,
+          user: { id: input.id },
         },
       });
       return candidate;
